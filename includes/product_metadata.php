@@ -106,6 +106,11 @@
 
                         $timeslots = unserialize($timeslots);
 
+                        // echo '<pre>';
+                        // print_r($timeslots);
+                        // echo '</pre>';
+
+
                         if (!empty($timeslots)) {
                             foreach ($timeslots['timeslots'][$day_key] as $key => $timeslot) {
                                 list($hour, $minute) = explode(':', $timeslot);
@@ -126,7 +131,6 @@
         <?php } ?>
     </div>
 </div>
-
 
 
 <!--================================== 

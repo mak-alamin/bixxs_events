@@ -189,6 +189,7 @@ function bixxs_events_product_tabs()
 }
 add_action('woocommerce_product_data_panels', 'bixxs_events_product_tabs');
 
+require_once __DIR__ . '/includes/functions/product_metadata.php';
 
 
 function bixxs_events_render_addon_field($addon, $loop = 0)
@@ -554,13 +555,6 @@ function bixxs_events_save_options($product_id)
 		'bixxs_events_event_template',
 		'bixxs_events_start_time',
 		'bixxs_events_end_time',
-		'bixxs_events_available_monday',
-		'bixxs_events_available_tuesday',
-		'bixxs_events_available_wednesday',
-		'bixxs_events_available_thursday',
-		'bixxs_events_available_friday',
-		'bixxs_events_available_saturday',
-		'bixxs_events_available_sunday',
 		'bixxs_events_price_per_person',
 		'bixxs_events_price_per_event',
 		'bixxs_events_label',
