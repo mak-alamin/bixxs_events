@@ -1,0 +1,126 @@
+section#intro {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    z-index: 999;
+    display: none;
+    background: #fff;
+    align-items: center;
+    justify-content: center;
+}
+section#intro img {
+  width: 150px;
+  height: 150px;
+}
+
+.inner-centered {
+  position: relative;
+}
+.inner-centered.x {
+  margin: 0 auto;
+  text-align: center;
+}
+.inner-centered.y {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.inner-centered.x.y {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+label{
+    display: block;
+}
+img.uploaded-logo {
+    margin-top: 15px;
+}
+.form-table td p{
+    display: inline-block;
+}
+
+/* Ticket Template Form Style */
+.divTable{
+    display: table;
+    width: 100%;
+}
+.divTableRow {
+    display: table-row;
+}
+.divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+}
+.divTableCell, .divTableHead {
+    border: 0px solid #999999;
+    display: table-cell;
+    padding: 10px 10px;
+position:relative; float:left; left:0; top:0;
+
+}
+.divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+    font-weight: bold;
+}
+.divTableFoot {
+    background-color: #EEE;
+    display: table-footer-group;
+    font-weight: bold;
+}
+.divTableBody {
+    display: table-row-group;
+}
+
+/* All Tickets table style */
+.ticket-table{
+    font-size: 14px;
+    text-align: left;
+    width:100%;
+    margin-top:10px;
+    border:1px solid #E0E0E0;
+    border-collapse: collapse;
+}
+.table-title{
+    border:1px solid #E0E0E0;
+}
+a.info-eidt{
+    color: #0071a1;
+    text-decoration:none;
+}
+a.info-delete {
+    color:red;
+    text-decoration:none;
+}
+.ticket-table tr th{
+    padding: 15px 8px;
+    text-align: left;
+}
+.ticket-table tr td{
+    padding: 15px 8px;
+}
+
+.bixxs-events-hidden {
+    display: none;
+}
+
+div.bixxs_events_addon_field_wrapper {
+    margin-bottom: 30px;
+}
+
+div.bixxs_events_addon_field_wrapper summary {
+    background: #eee;
+    padding-left: 30px;
+}
+
+div.bixxs_events_addon_field_wrapper h5 {
+    padding: 5px 30px;
+    background-color: #eee;
+}
+div.bixxs_events_addon_field_wrapper h4 {
+    display: inline-block;
+}

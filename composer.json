@@ -1,0 +1,14 @@
+{
+    "name": "mlx-solutions/mlx-system",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+            "name": "MLX Solutions",
+            "email": "mail@mlx-solutions.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "dompdf/dompdf": "dev-master"
+    }
+}

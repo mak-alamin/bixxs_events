@@ -1,0 +1,155 @@
+/* Add your CSS code here.
+
+For example:
+.example {
+    color: red;
+}
+
+For brushing up on your CSS knowledge, check out http://www.w3schools.com/css/css_syntax.asp
+
+End of comment */ 
+@media all and (max-width:699px) {
+
+.action .cart .wcpa_form_outer .wcpa_form_item {
+    margin: 1px 0 1em 0;
+    float: left;
+    width: 20%;
+    text-align:center;
+}
+.action .cart .wcpa_form_outer label {
+    padding-right: 0em!important;
+}
+.action .cart .wcpa_form_outer .wcpa_form_item input[type="number"] {
+    width: 80%!important;
+}
+
+}
+
+.wcpa_form_outer {
+    margin: 8px 0 2em 0;
+    border: 1px solid;
+   border-radius: 5px;
+    background-color: #ffffff;
+  max-width: 908px;
+}
+.wcpa_form_outer label {
+    display: block !important;
+    padding-right: 2em !important;
+    
+    font-size: small !important;
+}
+
+
+.wcpa_form_outer .wcpa_form_item input[type=date], .wcpa_form_outer .wcpa_form_item input[type=datetime-local], .wcpa_form_outer .wcpa_form_item input[type=email], .wcpa_form_outer .wcpa_form_item input[type=file], .wcpa_form_outer .wcpa_form_item input[type=number], .wcpa_form_outer .wcpa_form_item input[type=tel], .wcpa_form_outer .wcpa_form_item input[type=text], .wcpa_form_outer .wcpa_form_item textarea {
+    width: 90%;
+    resize: none;
+    line-height: 25px;
+    padding: 5px 15px;
+    border: 1px solid #aaa;
+    background: #fff;
+    box-shadow: none;
+    outline: 0;
+}
+
+h3 {
+    font-size: 20px;
+    margin: 10px;
+}
+
+
+
+
+
+
+.quantity{
+  display:none !important;
+}
+
+.woocommerce div.product div.images img {
+    display: block;
+    width: 25%;
+    height: auto;
+    box-shadow: none;
+}
+
+.woocommerce div.product div.images .woocommerce-product-gallery__trigger::before {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #000;
+    border-radius: 100%;
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    box-sizing: content-box;
+    visibility: hidden;
+}
+.wcpa_form_outer label {
+    display: inline-block;
+    padding-right: 1em;
+    /* padding: 12px 12px 12px 0; */
+    display: flex;
+    /* float: left; */
+    /* width: 25%; */
+    /* margin-top: 6px; */
+    /* margin: 10px; */
+}
+.wcpa_form_outer {
+    margin: .5em 0 2em 0;
+    border: 1px solid;
+    display: flex;
+    width: 1172px;
+}
+
+.woocommerce div.product div.summary, .woocommerce-page #content div.product div.summary, .woocommerce-page div.product div.summary {
+    float: left;
+    width: 48%;
+    clear: none;
+    margin-right: 50px;
+    position: absolute;
+    margin-left: 170px;
+}
+.wcpa_form_outer .wcpa_form_item input[type="number"]{
+  width: 82px!important;
+    margin-inline-start: 4px;
+}
+.woocommerce .cart .button, .woocommerce .cart input.button {
+    float: left !important;
+}
+@media screen and (max-width: 550px) {
+  
+ .wcpa_form_outer {
+    margin: .5em 0 2em 0;
+    border: 1px solid;
+    text-align: center;
+}
+.wcpa_form_outer .wcpa_form_item input[type="number"] {
+    width: 25%!important;
+}
+.wcpa_form_outer {
+    margin: .5em 0 2em 0;
+    border: 1px solid;
+    display: table;
+    width: 286px;
+}
+  .wcpa_form_outer label{
+    padding-right: 1em;
+    display: block;
+  }
+  
+  
+
+
+}
+.wpt-footer-cart-wrapper>a {
+   visibility:hidden !important;}
+div.wpt-footer-cart-wrapper>a:after {
+    
+    visibility: hidden !important;
+}
+.wpt_product_table_wrapper div.tables_cart_message_box .widget_shopping_cart_content {
+    
+    visibility: hidden !important;
+  display: none;
+}

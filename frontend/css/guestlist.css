@@ -1,0 +1,46 @@
+#mlx_guest_selection h2{
+    display: inline-block;
+    margin-bottom: 0;
+    margin-left: 10px;
+    line-height: 41px;
+}
+
+#mlx_guest_selection .ticket-master-delete-button{
+    display: inline-block;
+    margin-left: 20px;
+    line-height: 41px;
+}
+
+#mlx_guest_selection .ticket-master-required-info{
+    text-align: right;
+}
+
+#mlx_guest_selection .ticket-master-required label {
+    font-weight: bold;
+
+}
+
+#mlx_guest_selection .ticket-master-required label:after {
+    content: ' *';
+
+}
+
+#mlx_guest_selection .ticket-master-guest-input{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#mlx_guest_selection .ticket-master-guest-input div{
+
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    width: 400px;
+    margin: 15px;
+
+}
+
+form.cart {
+    flex-direction: column;
+}

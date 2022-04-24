@@ -1,0 +1,6 @@
+.bixxs_events_hidden {
+    display: none;
+}
+div.bixxs_events_addons_wrapper input[type="checkbox"] {
+    margin: 6px;
+}
