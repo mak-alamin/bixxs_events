@@ -106,12 +106,8 @@
 
                         $timeslots = unserialize($timeslots);
 
-                        // echo '<pre>';
-                        // print_r($timeslots);
-                        // echo '</pre>';
+                        if (!empty($timeslots) && isset($timeslots['timeslots'][$day_key])) {
 
-
-                        if (!empty($timeslots)) {
                             foreach ($timeslots['timeslots'][$day_key] as $key => $timeslot) {
                                 list($hour, $minute) = explode(':', $timeslot);
                                 $available_tickets = $timeslots['tickets'][$day_key][$key];

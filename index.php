@@ -181,6 +181,7 @@ add_filter('woocommerce_product_data_tabs', 'bixxs_events_custom_product_tabs');
 
 
 
+
 function bixxs_events_product_tabs()
 {
 	global $post, $wpdb;
@@ -190,6 +191,8 @@ function bixxs_events_product_tabs()
 add_action('woocommerce_product_data_panels', 'bixxs_events_product_tabs');
 
 require_once __DIR__ . '/includes/functions/product_metadata.php';
+
+
 
 
 function bixxs_events_render_addon_field($addon, $loop = 0)
