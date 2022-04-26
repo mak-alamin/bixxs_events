@@ -93,20 +93,20 @@ function bixxs_events_save_timeslot_options($product_id)
 
 
 // check for options and create empty array
-add_action('init', 'ticket_master_check_option');
-function ticket_master_check_option()
+add_action('init', 'bixxs_events_check_option');
+function bixxs_events_check_option()
 {
-    $ticket_master_option = get_option('ticket_master_options');
-    if (!$ticket_master_option)
-        add_option('ticket_master_options', array());
+    $bixxs_events_option = get_option('bixxs_events_options');
+    if (!$bixxs_events_option)
+        add_option('bixxs_events_options', array());
 }
 
 
 /**
  * Enqueue Scritps
  */
-function enqueue_variation_script()
+function bixss_enqueue_variation_script()
 {
-    wp_enqueue_script('ticket_master_variation', plugin_dir_url(__FILE__) . 'admin/js/variation.js', '', '1.51');
+    wp_enqueue_script('bixxs_events_variation', plugin_dir_url(__FILE__) . 'admin/js/variation.js', '', '1.51');
 }
-add_action('admin_enqueue_scripts', 'enqueue_variation_script');
+add_action('admin_enqueue_scripts', 'bixss_enqueue_variation_script');

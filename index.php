@@ -635,17 +635,6 @@ function bixxs_events_save_options($product_id)
 	}
 }
 
-// check for options and create empty array
-
-add_action('init', 'bixxs_events_check_option');
-function bixxs_events_check_option()
-{
-	$bixxs_events_option = get_option('bixxs_events_options');
-	if (!$bixxs_events_option)
-		add_option('bixxs_events_options', array());
-}
-
-
 require_once __DIR__ . '/includes/functions/availability.php';
 
 
