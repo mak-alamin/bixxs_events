@@ -110,24 +110,3 @@ function enqueue_variation_script()
     wp_enqueue_script('ticket_master_variation', plugin_dir_url(__FILE__) . 'admin/js/variation.js', '', '1.51');
 }
 add_action('admin_enqueue_scripts', 'enqueue_variation_script');
-
-
-
-
-/**
- * Register Ajax to check availability for orders
- */
-function ticket_master_availability()
-{
-    if (!isset($_POST['date']) || !isset($_POST['product_id']))
-        die();
-
-    $date = sanitize_text_field($_POST['date']);
-    $product_id = sanitize_text_field($_POST['product_id']);
-
-    $timeslots = ticket_master_get_timeslots($date, $product_id);
-    echo json_encode($timeslots);
-    die();
-}
-add_action('wp_ajax_ticket_master_availability', 'ticket_master_availability');
-add_action('wp_ajax_nopriv_ticket_master_availability', 'ticket_master_availability');

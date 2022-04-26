@@ -5,6 +5,7 @@
 */
 
 //Show Time Slots on the single product page
+
 add_action('woocommerce_before_add_to_cart_button', 'bixxs_events_show_addons', 25);
 function bixxs_events_show_addons()
 {

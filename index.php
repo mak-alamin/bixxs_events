@@ -54,7 +54,7 @@ if (!defined('ABSPATH')) {
 
 require_once(plugin_dir_path(__FILE__) . '/vendor/autoload.php');
 
-//require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/includes/common_functions.php';
 
 //Load Text Domain and include necessary Files
 add_action('plugins_loaded', 'bixxs_events_odTextDomainLoaded');
@@ -96,7 +96,7 @@ if (in_array('woocommerce/woocommerce.php', $active_plugins)) {
 	{
 
 		echo '<div class="notice notice-info is-dismissible">
-			              <p>MLX TicketMaster requires to activate the WooCommerce Plugin.</p>
+			              <p>Bixxs Events requires to activate the WooCommerce Plugin.</p>
 			             </div>';
 	}
 	add_action('admin_notices', 'mlx_bixxs_events_admin_notice');
@@ -191,8 +191,6 @@ function bixxs_events_product_tabs()
 add_action('woocommerce_product_data_panels', 'bixxs_events_product_tabs');
 
 require_once __DIR__ . '/includes/functions/product_metadata.php';
-
-
 
 
 function bixxs_events_render_addon_field($addon, $loop = 0)
@@ -648,6 +646,8 @@ function bixxs_events_check_option()
 }
 
 
+require_once __DIR__ . '/includes/functions/availability.php';
+
 
 function bixxs_events_enqueue_variation_scritp()
 {
@@ -655,31 +655,7 @@ function bixxs_events_enqueue_variation_scritp()
 }
 add_action('admin_enqueue_scripts', 'bixxs_events_enqueue_variation_scritp');
 
-
-
-
-function bixxs_events_availability()
-{
-	if (!isset($_POST['date']) || !isset($_POST['product_id']))
-		die();
-
-	$date = sanitize_text_field($_POST['date']);
-	$product_id = sanitize_text_field($_POST['product_id']);
-	$product = wc_get_product($product_id);
-
-	$day_of_week = strtolower(date('l', strtotime($date)));
-	$available_tickets = $product->get_meta('bixxs_events_available_' . $day_of_week);
-	if (!$available_tickets) {
-		echo 0;
-	} else {
-		echo max(0, $available_tickets - count(bixxs_events_get_guests($date, $product_id)));
-	}
-	die();
-}
-add_action('wp_ajax_bixxs_events_availability', 'bixxs_events_availability');
-add_action('wp_ajax_nopriv_bixxs_events_availability', 'bixxs_events_availability');
 /*
-
         }else{
             if(!empty($licenseKey) && !empty($this->licenseMessage)){
                $this->showMessage=true;
