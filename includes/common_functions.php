@@ -1,5 +1,38 @@
 <?php
 
+function bixxsEventsGetDayName($selectedDay)
+{
+    $weekday = "";
+    switch ($selectedDay) {
+        case 0:
+            $weekday = "sonntag";
+            break;
+        case 1:
+            $weekday = "montag";
+            break;
+        case 2:
+            $weekday = "dienstag";
+            break;
+        case 3:
+            $weekday = "mittwoch";
+            break;
+        case 4:
+            $weekday = "donnerstag";
+            break;
+        case 5:
+            $weekday = "freitag";
+            break;
+        case 6:
+            $weekday = "samstag";
+            break;
+        default:
+            $weekday = "";
+            break;
+    }
+
+    return $weekday;
+}
+
 function bixxs_events_skip_order_stauses()
 {
     $skip_statuses = apply_filters("bixxs_events_skip_order_stauses_filter", array('wc-refunded', 'wc-failed', 'wc-cancelled'));
@@ -46,6 +79,7 @@ function bixxs_events_get_timeslots($date, $product_id)
         'status' => bixxs_events_skip_order_stauses()
     ));
 
+
     if (empty($orders)) {
         return $available_timeslots;
     }
@@ -55,15 +89,13 @@ function bixxs_events_get_timeslots($date, $product_id)
 
         foreach ($items as $item_id => $item) {
 
-            wp_send_json($item);
-
             if ($product_id && $item->get_product_id() != $product_id) {
                 continue;
             }
 
             if ($item->get_meta('Reservierung Datum') == $search_date) {
 
-                $reserved_time = $item->get_meta("Reservierungszeit");
+                $reserved_time = $item->get_meta("Reservierung Zeit");
 
                 if (isset($available_timeslots['timeslots'][$day])) {
 
@@ -84,6 +116,7 @@ function bixxs_events_get_timeslots($date, $product_id)
                     }
 
                     $available_tickets = $available_tickets - $no_of_guests_booked;
+                    
                     $available_timeslots['tickets'][$day][$reserved_time_index] = $available_tickets;
 
                     if ($available_tickets < 0) {

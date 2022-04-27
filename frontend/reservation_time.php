@@ -49,10 +49,13 @@ function bixxs_events_add_to_cart_validation($passed, $product_id, $quantity, $v
         wc_add_notice(__('Bitte wählen Sie Ihre passende Zeit aus den verfügbaren Daten.', ''), 'error');
     }
 
+    $date_today = strtotime(date('d-m-Y'));
+    $reserve_date = strtotime($_POST['bixxs_events_reserve_date']);
+
     $now = time();
     $time_date = strtotime(sanitize_text_field($_POST['bixxs_events_reserve_time']));
 
-    if ($time_date < $now) {
+    if ($date_today == $reserve_date && $time_date < $now) {
         wc_add_notice('Der Tag muss in der Zukunft liegen.', 'error');
         $passed = false;
     }

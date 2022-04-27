@@ -151,7 +151,6 @@ Bixxs Events Addon
 
     echo '</div>';
 
-
     $product = wc_get_product($post->ID);
     $addons =  json_decode($product->get_meta('bixxs_events_fields'), true);
 

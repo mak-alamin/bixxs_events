@@ -287,22 +287,55 @@ function bixxs_events_guest_validation($passed, $product_id, $quantity, $variati
 
 
     // Check availability
-    if (isset($_POST['bixxs_events_reserve_time'])) {
+    if (isset($_POST['bixxs_events_reserve_date']) && !empty($_POST['bixxs_events_reserve_time'])) {
 
-        $date = $_POST['bixxs_events_reserve_time'];
+        $date = $_POST['bixxs_events_reserve_date'];
+        $time = $_POST['bixxs_events_reserve_time'];
+
+        $dayofweek = bixxsEventsGetDayName(date('w', strtotime($date)));
+
         $product = wc_get_product($product_id);
 
-        $day_of_week = strtolower(date('l', strtotime($date)));
-        $available_tickets = $product->get_meta('bixxs_events_available_' . $day_of_week);
+        $timeslotsData = bixxs_events_get_timeslots($date, $product_id);
 
-        if (!$available_tickets) {
-            $passed = false;
-            wc_add_notice('Es sind leider nicht genügend Tickets verfügbar', 'error');
-        } else {
+        if (isset($timeslotsData['available_tickets']) && !empty($timeslotsData['available_tickets']) && !empty($timeslotsData['timeslots'])) {
+
+            if (isset($timeslotsData['timeslots'])) {
+                $index = array_search($time, $timeslotsData['timeslots']);
+            } else {
+                $index = '';
+            }
+
+            $available_tickets = 0;
+            if (isset($timeslotsData['available_tickets'][$index])) {
+                $available_tickets = $timeslotsData['available_tickets'][$index];
+            }
+
             if ($available_tickets < count($guest_list)) {
                 $passed = false;
                 wc_add_notice('Es sind leider nicht genügend Tickets verfügbar', 'error');
             }
+        } else if (isset($timeslotsData['tickets']) && !empty($timeslotsData['tickets']) && !empty($timeslotsData['timeslots'])) {
+
+            if (isset($timeslotsData['timeslots'][$dayofweek])) {
+                $index = array_search($time, $timeslotsData['timeslots'][$dayofweek]);
+            } else {
+                $index = '';
+            }
+
+            $available_tickets = 0;
+            if (isset($timeslotsData['tickets'][$dayofweek][$index])) {
+                $available_tickets = $timeslotsData['tickets'][$dayofweek][$index];
+            }
+
+            if ($available_tickets < count($guest_list)) {
+                $passed = false;
+                wc_add_notice('Es sind leider nicht genügend Tickets verfügbar', 'error');
+            }
+        } else {
+
+            $passed = false;
+            wc_add_notice('Es sind leider nicht genügend Tickets verfügbar', 'error');
         }
     }
 

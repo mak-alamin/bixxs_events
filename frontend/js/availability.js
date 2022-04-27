@@ -1,35 +1,6 @@
 jQuery(document).ready(function ($) {
   let disabledDays = [];
 
-  function getDayName(selectedDay) {
-    let day = "donnerstag";
-    switch (selectedDay) {
-      case 0:
-        day = "freitag";
-        break;
-      case 1:
-        day = "samstag";
-        break;
-      case 2:
-        day = "sonntag";
-        break;
-      case 3:
-        day = "montag";
-        break;
-      case 4:
-        day = "dienstag";
-        break;
-      case 5:
-        day = "mittwoch";
-        break;
-      default:
-        day = "donnerstag";
-        break;
-    }
-
-    return day;
-  }
-
   let check_change = function (inputDate) {
     let datetimePicker = this;
     const bixxs_events_calendar = jQuery("#bixxs_events_datetimepicker");
@@ -50,6 +21,7 @@ jQuery(document).ready(function ($) {
     }
 
     bixxs_events_calendar.attr("data-old-value", date);
+    jQuery("#bixxs_events_datetimepicker").val(date);
 
     let data = {
       action: "bixxs_events_availability",
@@ -63,8 +35,23 @@ jQuery(document).ready(function ($) {
       data: data,
       success: function (response) {
         date = bixxs_events_calendar.val();
-        // console.log(response);
         bixxs_events_notice.text("");
+
+        let date_arr = date.split(".");
+
+        let d = new Date(
+          parseInt(date_arr[2]),
+          parseInt(date_arr[1] - 1),
+          parseInt(date_arr[0])
+        );
+
+        let dayName = new Date(d).toLocaleString("de-DE", {
+          weekday: "long",
+        });
+
+        dayName = dayName.toLocaleLowerCase();
+
+        let selectedDay = response.timeslots[dayName];
 
         let options = "";
 
@@ -76,8 +63,6 @@ jQuery(document).ready(function ($) {
         ) {
           let available_tickets_arr = [];
           response.timeslots.forEach(function (time, index) {
-            console.log(Object.keys(response.available_tickets));
-
             if (
               Object.keys(response.available_tickets).indexOf(
                 index.toString()
@@ -95,13 +80,6 @@ jQuery(document).ready(function ($) {
             }
           });
         } else {
-          let date_arr = date.split(".");
-
-          let d = new Date(date_arr[2], date_arr[1], date_arr[0]);
-
-          let dayName = getDayName(d.getDay());
-          let selectedDay = response.timeslots[dayName];
-
           if (undefined === selectedDay || selectedDay.length <= 0) {
             options += "<option>No Timeslot founds</option>";
           } else {
