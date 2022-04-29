@@ -11,8 +11,6 @@ function bixxs_events_addingbixxs_events_mitarbeiterFunc()
 
 function bixxs_events_mitarbeiterFunc()
 {
-    $employees = get_users(array('role__in' => array('bixxs_event_employee')));
-
     if (isset($_GET['page']) && $_GET['page'] == 'bixxs-events-mitarbeiter' && isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['user'])) {
         $user_id = $_GET['user'];
 
@@ -31,6 +29,8 @@ function bixxs_events_mitarbeiterFunc()
             echo "<p class='wrap'> There is a problem while deleting the user.</p>";
         }
     }
+
+    $employees = get_users(array('role__in' => array('bixxs_event_employee')));
 
     require_once __DIR__ . '/views/mitarbeiter/user_list.php';
 }

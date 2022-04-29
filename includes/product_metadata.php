@@ -89,6 +89,24 @@
             )
         ));
 
+        $all_employees = get_users(array('role__in' => array('bixxs_event_employee')));
+
+        $employees = array('0' => __('Auswahl Mitarbeiter', 'ticketmaster'));
+
+        if (!empty($all_employees)) {
+            foreach ($all_employees as $key => $employee) {
+                $employees[$employee->ID] = $employee->data->display_name;
+            }
+        }
+
+        woocommerce_wp_select(
+            array(
+                'id'      => 'bixxs_events_employee',
+                'label'   => __('Wählen Sie Mitarbeiter', 'ticketmaster'),
+                'options' => $employees,
+            )
+        );
+
         echo ' <h4>Verfügbare Tickets pro Tag</h4>';
 
         $days = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];

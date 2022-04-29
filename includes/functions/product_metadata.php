@@ -36,13 +36,7 @@ function bixxs_events_save_timeslot_options($product_id)
     $product = wc_get_product($product_id);
 
     $keys = array(
-        // 'available_monday',
-        // 'available_tuesday',
-        // 'available_wednesday',
-        // 'available_thursday',
-        // 'available_friday',
-        // 'available_saturday',
-        // 'available_sunday',
+        'bixxs_events_employee',
         'timeslots_selection'
     );
 
