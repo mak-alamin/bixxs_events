@@ -14,6 +14,8 @@ require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS
 require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS . "bixxsEvents-einstellungen.php");
 // require_once(BIXXS_EVENTS_INC_PATH.BIXXS_EVENTS_DS."admin".BIXXS_EVENTS_DS."timeslots.php");
 
+require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS . "mitarbeiter.php");
+
 // Extra Tickets
 require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS . "extratickets.php");
 

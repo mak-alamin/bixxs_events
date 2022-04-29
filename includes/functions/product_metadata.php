@@ -108,5 +108,7 @@ function bixxs_events_check_option()
 function bixss_enqueue_variation_script()
 {
     wp_enqueue_script('bixxs_events_variation', plugin_dir_url(__FILE__) . 'admin/js/variation.js', '', '1.51');
+
+    wp_enqueue_script('bixxs_events_addons', BIXXS_EVENTS_PLUGIN_URL . 'admin/js/addons.js', '', time(), true);
 }
 add_action('admin_enqueue_scripts', 'bixss_enqueue_variation_script');

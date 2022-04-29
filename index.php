@@ -32,7 +32,6 @@ class Veranstaltungen_M0C7D3365 {
             add_action( 'admin_post_Veranstaltungen_el_deactivate_license', [ $this, 'action_deactivate_license' ] );
             //$this->licenselMessage=$this->mess;
 */
-
 add_action('woocommerce_email_before_order_table', 'bixxs_events_add_content_specific_email', 20, 4);
 
 function bixxs_events_add_content_specific_email($order, $sent_to_admin, $plain_text, $email)
@@ -54,13 +53,26 @@ if (!defined('ABSPATH')) {
 
 require_once(plugin_dir_path(__FILE__) . '/vendor/autoload.php');
 
+
+define('BIXXS_EVENTS_PLUGIN_URL', plugins_url('/', __FILE__));
+
 require_once __DIR__ . '/includes/common_functions.php';
+
+
+// Do stuff on plugin activation
+function bixxs_events_activate_plugin()
+{
+	require_once __DIR__ . '/includes/installer.php';
+
+	$installer = new Installer();
+	$installer->run();
+}
+register_activation_hook(__FILE__, 'bixxs_events_activate_plugin');
 
 //Load Text Domain and include necessary Files
 add_action('plugins_loaded', 'bixxs_events_odTextDomainLoaded');
 function bixxs_events_odTextDomainLoaded()
 {
-
 	require plugin_dir_path(__FILE__) . 'includes/ticketsystem.php';
 
 	load_plugin_textdomain(BIXXS_EVENTS_TEXTDOMAIN, false, dirname(plugin_basename(__FILE__)) . BIXXS_EVENTS_DS . 'languages');

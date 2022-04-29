@@ -1,70 +1,79 @@
-(function($){
-    $(document).ready(function(){
+(function ($) {
+  $(document).ready(function () {
+    /**
+     * Employee User Roles
+     */
 
-        /**
-         * Confirm Delete a Ticket
-         */
-        $("a.info-delete").on("click", function(){
-            if( ! confirm("SIND SIE SICHER ?")){
-                return false;
-            }
-        });
-         
-        /**
-         * Media Image Upload
-         */
-        $(document).on("click",".js-image-upload", function(e){
-            e.preventDefault();
-            
-            var button = $(".js-image-upload");
-            
-            var tm_wp_media = wp.media({
-                
-                title: 'Select Image',
-                
-                library: {
-                    type: 'image'
-                },
-                
-                button: {
-                    text: 'Upload Image'
-                },
+    let create_employee = location.search.includes("action=create_employee");
 
-                multiple: false
+    if (create_employee) {
+      jQuery("select#role option").attr("selected", false);
+      jQuery("select#role option[value='bixxs_event_employee']").attr(
+        "selected",
+        "selected"
+      );
+    }
 
-            });
-
-            tm_wp_media.open();
-
-            tm_wp_media.on( "select", function(){
-                var attachment = tm_wp_media.state().get('selection').first().toJSON();
-
-                button.siblings('input.image-link-input').val(attachment.url);
-                
-                $('.uploaded-logo').attr('src', attachment.url);
-            });
-        });
+    /**
+     * Confirm Delete a Ticket
+     */
+    $("a.info-delete").on("click", function () {
+      if (!confirm("SIND SIE SICHER ?")) {
+        return false;
+      }
     });
 
-  
-    
     /**
-     * Ticket Template Options Changing
+     * Media Image Upload
      */
-  
-    let ticket_options = document.querySelectorAll("select#bixxs_events_event_template option");
-    
-    /**
-     * Ticket Template On Change
-     */
-    $("select#bixxs_events_event_template").on("change", function(){
-        // console.log(ticket_options);
+    $(document).on("click", ".js-image-upload", function (e) {
+      e.preventDefault();
 
-        ticket_options.forEach(element => {
-            element.removeAttribute("selected");
-        });
-        this.options[this.selectedIndex].setAttribute("selected", "selected");
+      var button = $(".js-image-upload");
 
+      var tm_wp_media = wp.media({
+        title: "Select Image",
+
+        library: {
+          type: "image",
+        },
+
+        button: {
+          text: "Upload Image",
+        },
+
+        multiple: false,
+      });
+
+      tm_wp_media.open();
+
+      tm_wp_media.on("select", function () {
+        var attachment = tm_wp_media.state().get("selection").first().toJSON();
+
+        button.siblings("input.image-link-input").val(attachment.url);
+
+        $(".uploaded-logo").attr("src", attachment.url);
+      });
     });
+  });
 
+  /**
+   * Ticket Template Options Changing
+   */
+
+  let ticket_options = document.querySelectorAll(
+    "select#bixxs_events_event_template option"
+  );
+
+  /**
+   * Ticket Template On Change
+   */
+  $("select#bixxs_events_event_template").on("change", function () {
+    // console.log(ticket_options);
+
+    ticket_options.forEach((element) => {
+      element.removeAttribute("selected");
+    });
+    this.options[this.selectedIndex].setAttribute("selected", "selected");
+  });
 })(jQuery);

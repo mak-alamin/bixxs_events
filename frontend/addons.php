@@ -1,10 +1,10 @@
 <?php
 
 /*
-* Add Reservation Time to Single Product Page at Frontend
+* Add Addon fields to Single Product Page at Frontend
 */
 
-//Show Time Slots on the single product page
+//Show Addon fields on the single product page
 
 add_action('woocommerce_before_add_to_cart_button', 'bixxs_events_show_addons', 25);
 function bixxs_events_show_addons()
@@ -21,12 +21,12 @@ function bixxs_events_show_addons()
     wp_enqueue_script('bixxs_events_addons');
     wp_enqueue_style('bixxs_events_addons');
 
-
     // Render addon fields
     $addons_fields = json_decode($product->get_meta('bixxs_events_fields'), true);
 
-    if (!$addons_fields)
+    if (!$addons_fields) {
         return;
+    }
 
     foreach ($addons_fields as $key => $addons_field) {
         echo '<div class="bixxs_events_addons_wrapper">';
@@ -101,9 +101,6 @@ function bixxs_events_show_addons_summary()
         $price_event = 0;
         $class_price_event = 'bixxs_events_hidden';
     }
-
-
-
 ?>
     <div id="bixxs_events_addons">
         <h4>Zusammenfassung</h4>
