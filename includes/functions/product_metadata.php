@@ -37,7 +37,7 @@ function bixxs_events_save_timeslot_options($product_id)
 
     $keys = array(
         'bixxs_events_employee',
-        'timeslots_selection'
+        'timeslots_selection',
     );
 
     foreach ($keys as $key) {

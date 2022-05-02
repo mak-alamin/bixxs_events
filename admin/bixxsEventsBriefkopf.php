@@ -99,11 +99,11 @@ class Bixxs_Events_Briefkopf
 	*/
 	function rebooking_tickets()
 	{
-
 		if (isset($_POST['rebook_ticket'])) {
 			$item = new WC_Order_Item_Product(sanitize_text_field($_POST['item_id']));
 			$date = sanitize_text_field($_POST['bixxs_events_reserve_time']);
 			$booked_date = wc_get_order_item_meta($item->get_id(), 'Reservierung Datum', true);
+
 
 			if ($date != $booked_date) {
 
@@ -117,16 +117,19 @@ class Bixxs_Events_Briefkopf
 					wc_add_notice('Das Ticket liegt in der Vergangenheit und kann nicht umgebucht werden.', 'error');
 				} else {
 
-					$day_of_week = strtolower(date('l', strtotime($date)));
-					$available_tickets = $item->get_product()->get_meta('bixxs_events_available_' . $day_of_week);
+					setlocale(LC_TIME, 'de_DE', 'deu_deu');
+
+					$day_of_week = strtolower(explode(',', strftime('%A, %d.%m.%Y', strtotime($date)))[0]);
+
+					$tickets_arr = unserialize($item->get_product()->get_meta('timeslots_selection'))['tickets'];
+
+					$available_tickets = array_sum($tickets_arr[$day_of_week]);
 
 					$guests = count(json_decode(wc_get_order_item_meta($item->get_id(), '_mlx_guests', true), true));
 
 					$booked = count(bixxs_events_get_guests($date, $item->get_product_id()));
 
-
 					if (($available_tickets - $booked) >= $guests) {
-
 						$item->update_meta_data('Reservierung Datum', $date);
 						$item->save();
 
