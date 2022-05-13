@@ -287,29 +287,6 @@ class Bixxs_Events_Briefkopf
 
 			if ($order->get_status() == 'completed' || $paymethod != 'bacs') {
 				$guests = json_decode($item->get_meta('_mlx_guests'), true);
-				//			    var_export($guests);
-				//                $guests = array(
-				//                    1 => array(
-				//                            'active' => 'on', '
-				//                            first_name' => 'Max',
-				//                            'last_name' => 'Mustermann',
-				//                            'telephone' => '0123456789',
-				//                            'email' => 'info@mustermann.de',
-				//                            'street' => 'Musterstraße 1',
-				//                            'zip' => '12345',
-				//                            'city' => 'Musterstadt',
-				//                        ),
-				//                    2 => array(
-				//                            'active' => 'on',
-				//                            'first_name' => 'Maria',
-				//                            'last_name' => 'Musterfrau',
-				//                            'telephone' => '987654321',
-				//                            'email' => 'info@musterfrau.de',
-				//                            'street' => 'Musteralle 2',
-				//                            'zip' => '987654',
-				//                            'city' => 'Musteria',
-				//                        ),
-				//                    );
 
 				echo '<h3>' . $ticket_name . ' am ' . $bixxs_events_reserve_time . '</h3>';
 				echo "<h4> Klicken Sie auf den Button unten, um Ihre Bestellung zu drucken $product_type</h4>";

@@ -123,12 +123,10 @@ function bixxs_events_show_guest_selection()
     echo $guest_selection;
 }
 
-
 add_filter('woocommerce_add_cart_item_data', 'bixxs_events_add_item_data', 10, 3);
 
 function bixxs_events_add_item_data($cart_item_data, $product_id, $variation_id)
 {
-
     if (isset($_REQUEST['mlx_guests'])) {
 
         $mlx_guests = $_REQUEST['mlx_guests'];
@@ -150,6 +148,8 @@ function bixxs_events_add_item_data($cart_item_data, $product_id, $variation_id)
         $cart_item_data['mlx_guests'] = json_encode($mlx_active_guests);
     }
 
+    $cart_item_data['bixxs_events_item_employee'] = get_post_meta($product_id, 'bixxs_events_employee', true);
+
     return $cart_item_data;
 }
 
@@ -158,9 +158,9 @@ add_filter('woocommerce_get_item_data', 'bixxs_events_add_item_meta', 10, 2);
 
 function bixxs_events_add_item_meta($item_data, $cart_item)
 {
-
-    if ($cart_item['data']->get_type() != 'bixxs_events_product')
+    if ($cart_item['data']->get_type() != 'bixxs_events_product') {
         return $item_data;
+    }
 
     if (array_key_exists('mlx_guests', $cart_item)) {
         $custom_details = $cart_item['mlx_guests'];
@@ -189,20 +189,19 @@ add_action('woocommerce_checkout_create_order_line_item', 'bixxs_events_add_cust
 
 function bixxs_events_add_custom_order_line_item_meta($item, $cart_item_key, $values, $order)
 {
-
     if (array_key_exists('mlx_guests', $values)) {
         $item->update_meta_data('_mlx_guests', $values['mlx_guests']);
     }
+
+    if (array_key_exists('bixxs_events_item_employee', $values)) {
+        $item->update_meta_data('bixxs_events_item_employee', $values['bixxs_events_item_employee']);
+    }
 }
-
-
 
 // Hide quantity field from ticket booking
 add_filter('woocommerce_is_sold_individually', 'bixxs_events_remove_quantity_field', 10, 2);
 function bixxs_events_remove_quantity_field($return, $product)
 {
-
-
     $ticket_template_id = get_post_meta($product->get_id(), 'bixxs_events_event_template', true);
 
     if ($ticket_template_id) {
@@ -217,7 +216,6 @@ add_filter('woocommerce_cart_item_quantity', 'bixxs_events_custom_checkout_cart_
 // Display amount guest in quantities
 function bixxs_events_custom_checkout_cart_item_name($item_qty, $cart_item_key)
 {
-
     $cart_item = WC()->cart->get_cart_item($cart_item_key);
 
     if (!isset($cart_item['mlx_guests']))

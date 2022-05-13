@@ -1,5 +1,57 @@
 <?php
 
+function bixxs_events_get_orders_by_employee($employee_id)
+{
+    global $wpdb;
+
+    if (current_user_can('bixxs_event_employee')) {
+        $item_id_sql = "SELECT `order_item_id` FROM `{$wpdb->prefix}woocommerce_order_itemmeta` WHERE `meta_key` = 'bixxs_events_item_employee' AND `meta_value` = $employee_id";
+    } else {
+        $item_id_sql = "SELECT `order_item_id` FROM `{$wpdb->prefix}woocommerce_order_itemmeta` WHERE `meta_key` = 'bixxs_events_item_employee'";
+    }
+
+    $order_items = $wpdb->get_results($item_id_sql);
+
+    $order_item_ids = [];
+
+    foreach ($order_items as $key => $item) {
+        $order_item_ids[] = $item->order_item_id;
+    }
+
+    $order_item_ids = implode(',', $order_item_ids);
+
+    $order_id_sql = "SELECT `order_id` FROM `{$wpdb->prefix}woocommerce_order_items` WHERE `order_item_id` IN ($order_item_ids)";
+
+    $order_ids_arr = $wpdb->get_results($order_id_sql);
+
+    $order_ids = [];
+
+    foreach ($order_ids_arr as $key => $item) {
+        $order_ids[] = $item->order_id;
+    }
+
+    return $order_ids;
+}
+
+function bixxs_events_get_orders_by_product_id($product_id, $order_status = array('wc-processing', 'wc-pending', 'wc-completed'))
+{
+    global $wpdb;
+
+    $results = $wpdb->get_col("
+        SELECT order_items.order_id
+        FROM {$wpdb->prefix}woocommerce_order_items as order_items
+        LEFT JOIN {$wpdb->prefix}woocommerce_order_itemmeta as order_item_meta ON order_items.order_item_id = order_item_meta.order_item_id
+        LEFT JOIN {$wpdb->posts} AS posts ON order_items.order_id = posts.ID
+        WHERE posts.post_type = 'shop_order'
+        AND posts.post_status IN ( '" . implode("','", $order_status) . "' )
+        AND order_items.order_item_type = 'line_item'
+        AND order_item_meta.meta_key = '_product_id'
+        AND order_item_meta.meta_value = '$product_id'
+    ");
+
+    return $results;
+}
+
 function bixxsEventsGetDayName($selectedDay)
 {
     $weekday = "";
@@ -116,7 +168,7 @@ function bixxs_events_get_timeslots($date, $product_id)
                     }
 
                     $available_tickets = $available_tickets - $no_of_guests_booked;
-                    
+
                     $available_timeslots['tickets'][$day][$reserved_time_index] = $available_tickets;
 
                     if ($available_tickets < 0) {

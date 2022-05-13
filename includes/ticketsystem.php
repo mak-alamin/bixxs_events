@@ -3,7 +3,6 @@ require_once("constants.php");
 require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS . "common-functions.php");
 require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS . "enqueue_scripts.php");
 
-
 //Ticket System Welcome page
 require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS . "event-master.php");
 
@@ -15,6 +14,7 @@ require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS
 // require_once(BIXXS_EVENTS_INC_PATH.BIXXS_EVENTS_DS."admin".BIXXS_EVENTS_DS."timeslots.php");
 
 require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS . "mitarbeiter.php");
+require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS . "mitarbeitertermine.php");
 
 // Extra Tickets
 require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS . "extratickets.php");

@@ -1,3 +1,9 @@
+.mb20 {
+  margin-bottom: 20px;
+}
+.mt20 {
+  margin-top: 20px;
+}
 section#intro {
   width: 100%;
   height: 100%;
