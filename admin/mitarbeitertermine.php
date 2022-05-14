@@ -1,4 +1,7 @@
 <?php
+
+use function PHPSTORM_META\type;
+
 add_action('admin_menu', 'bixxs_events_addingbixxs_events_mitarbeitertermineFunc');
 
 function bixxs_events_addingbixxs_events_mitarbeitertermineFunc()
@@ -26,6 +29,10 @@ function bixxs_events_mitarbeitertermineFunc()
             <tr>
                 <td>Ticketnummer</td>
                 <td>Name / Vorname</td>
+                <td>Straße Haußnummer</td>
+                <td>PLZ Ort</td>
+                <td>Telefonnummer</td>
+                <td>E-Mail</td>
                 <td>Produkt</td>
             </tr>
         </thead>
@@ -39,6 +46,14 @@ function bixxs_events_mitarbeitertermineFunc()
 
         foreach ($order_ids as $id) {
             $order = wc_get_order($id);
+
+            if (isset($_POST['mitarbeitertermine_date'])) {
+                $filter_date = date("d.m.Y", strtotime($_POST['mitarbeitertermine_date']));
+
+                if (strpos($order->get_meta('Reservierung Datum'), $filter_date) === false) {
+                    continue;
+                }
+            }
 
             foreach ($order->get_items() as $item) {
                 $guests = (array) json_decode($item->get_meta('_mlx_guests'));
@@ -56,6 +71,22 @@ function bixxs_events_mitarbeitertermineFunc()
 
                         echo '<td>';
                         echo $guest->first_name . ' ' . $guest->last_name;
+                        echo '</td>';
+
+                        echo '<td>';
+                        echo $guest->street;
+                        echo '</td>';
+
+                        echo '<td>';
+                        echo $guest->zip . ' ' . $guest->city;
+                        echo '</td>';
+
+                        echo '<td>';
+                        echo $guest->telephone;
+                        echo '</td>';
+
+                        echo '<td>';
+                        echo $guest->email;
                         echo '</td>';
 
                         echo '<td>';
