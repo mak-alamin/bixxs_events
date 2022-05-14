@@ -1,9 +1,9 @@
 <?php
 
-function bixxs_events_render_pdf($all_guests)
+function bixxs_events_render_employee_pdf($all_guests)
 {
     //format date
-    $format_date = date("d.m.Y", strtotime($_POST['guestlist_date']));
+    $format_date = date("d.m.Y", strtotime($_POST['mitarbeitertermine_date']));
 
     $ticketmaster_options = get_option('bixxs_events_options');
     if (isset($ticketmaster_options['general_settings'])) {
@@ -25,7 +25,7 @@ function bixxs_events_render_pdf($all_guests)
     $output = '';
     // Add header
     header('Content-type: application/pdf');
-    header('Content-Disposition: inline; filename=\"gaesteliste.pdf\"');
+    header('Content-Disposition: inline; filename=\"mitarbeitertermine.pdf\"');
     header('Content-Transfer-Encoding: binary');
     header('Accept-Ranges: bytes');
 
@@ -112,8 +112,7 @@ function bixxs_events_render_pdf($all_guests)
         <tbody>    
     ';
 
-
-    if ($all_guests) {
+    if (!empty($all_guests)) {
         foreach ($all_guests as $guest) {
             $output .= '<tr><td>' . $guest['ticket_id'] . '</td><td>' . $guest['first_name'] . ' ' . $guest['last_name'] .
                 '</td><td>' . $guest['street'] . '</td><td>' . $guest['zip'] . ' ' . $guest['city'] .
@@ -121,7 +120,8 @@ function bixxs_events_render_pdf($all_guests)
                 $guest['product_name'] . '</td></tr>';
         }
     } else {
-        $output .= "<tr><td>Keine Tickets gefunden</td></tr></div>";
+        $output .= "<tr><td>Keine Tickets gefunden</td></tr>";
     }
+    $output .= '</tbody></div>';
     return $output;
 }

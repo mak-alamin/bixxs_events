@@ -105,7 +105,6 @@ function bixxs_events_get_guests($date, $product_id = false)
 
 function bixxs_events_export()
 {
-
     if (!isset($_POST['guestlist_date']) || (!isset($_POST['bixxs_events_csv']) && !isset($_POST['bixxs_events_pdf'])))
         return;
 

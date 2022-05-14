@@ -30,7 +30,21 @@ function bixxs_events_get_orders_by_employee($employee_id)
         $order_ids[] = $item->order_id;
     }
 
-    return $order_ids;
+    $filtered_order_ids = $order_ids;
+
+    if (isset($_POST['mitarbeitertermine_date'])) {
+        $filter_date = date("d.m.Y", strtotime($_POST['mitarbeitertermine_date']));
+
+        foreach ($order_ids as $key => $id) {
+            $order = wc_get_order($id);
+
+            if (strpos($order->get_meta('Reservierung Datum'), $filter_date) === false) {
+                unset($filtered_order_ids[$key]);
+            }
+        }
+    }
+
+    return $filtered_order_ids;
 }
 
 function bixxs_events_get_orders_by_product_id($product_id, $order_status = array('wc-processing', 'wc-pending', 'wc-completed'))

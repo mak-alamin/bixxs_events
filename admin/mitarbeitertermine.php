@@ -1,6 +1,7 @@
 <?php
 
-use function PHPSTORM_META\type;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 add_action('admin_menu', 'bixxs_events_addingbixxs_events_mitarbeitertermineFunc');
 
@@ -19,9 +20,9 @@ function bixxs_events_mitarbeitertermineFunc()
     </h1>
 
     <form action="" method="post">
-        <label for="data0">Datum</label> <input id="data0" name="mitarbeitertermine_date" required="" type="date" value="<?php echo (isset($_POST['mitarbeitertermine_date']) ? $_POST['mitarbeitertermine_date'] : ''); ?>" />
+        <label for="data0">Datum</label> <input id="data0" name="mitarbeitertermine_date" type="date" value="<?php echo (isset($_POST['mitarbeitertermine_date']) ? $_POST['mitarbeitertermine_date'] : ''); ?>" required />
         <input type="submit" value="Anzeigen">&nbsp;
-        <input type="submit" name="bixxs_events_pdf" formtarget="_blank" value="PDF export">
+        <input type="submit" name="bixxs_events_employee_tickets_pdf" formtarget="_blank" value="PDF export">
     </form>
 
     <table class="wp-list-table widefat fixed striped table-view-list mt20">
@@ -39,63 +40,96 @@ function bixxs_events_mitarbeitertermineFunc()
         <tbody>
         <?php
 
-        global $wpdb;
+        $all_guests =  bixxs_events_get_all_employee_guests();
+
+        if (empty($all_guests)) {
+            echo "<tr><td>Keine Tickets gefunden</td></tr>";
+        } else {
+            foreach ($all_guests as $key => $guest) {
+                echo '<tr>';
+                echo '<td>';
+                echo $guest['ticket_id'];
+                echo '</td>';
+
+                echo '<td>';
+                echo $guest['first_name'] . ' ' . $guest['last_name'];
+                echo '</td>';
+
+                echo '<td>';
+                echo $guest['street'];
+                echo '</td>';
+
+                echo '<td>';
+                echo $guest['zip'] . ' ' . $guest['city'];
+                echo '</td>';
+
+                echo '<td>';
+                echo $guest['telephone'];
+                echo '</td>';
+
+                echo '<td>';
+                echo $guest['email'];
+                echo '</td>';
+
+                echo '<td>';
+                echo $guest['product_name'];
+                echo '</td>';
+                echo '</tr>';
+            }
+        }
+    }
+
+    function bixxs_events_employee_export_pdf()
+    {
+        if (isset($_POST['bixxs_events_employee_tickets_pdf'])) {
+            $all_guests = bixxs_events_get_all_employee_guests();
+
+            require_once __DIR__ . '/views/mitarbeiter/template_pdf.php';
+
+            $options = new Options();
+            $options->set('defaultFont', 'DejaVu Sans');
+
+            $dompdf = new Dompdf($options);
+
+            $dompdf->setPaper('A4');
+
+            $html = bixxs_events_render_employee_pdf($all_guests);
+
+            $dompdf->loadHtml($html);
+
+            // Render the HTML as PDF
+            $dompdf->render();
+
+            // Output the generated PDF to Browser
+            $dompdf->stream('mitarbeitertermine.pdf', array('Attachment' => false));
+        }
+    }
+    add_action('admin_init', 'bixxs_events_employee_export_pdf');
+
+    function bixxs_events_get_all_employee_guests()
+    {
         $employee_id = get_current_user_id();
 
         $order_ids = bixxs_events_get_orders_by_employee($employee_id);
 
+        $all_guests = [];
+
         foreach ($order_ids as $id) {
             $order = wc_get_order($id);
 
-            if (isset($_POST['mitarbeitertermine_date'])) {
-                $filter_date = date("d.m.Y", strtotime($_POST['mitarbeitertermine_date']));
+            foreach ($order->get_items() as $item_id => $item) {
+                $guests = json_decode($item->get_meta('_mlx_guests'), true);
 
-                if (strpos($order->get_meta('Reservierung Datum'), $filter_date) === false) {
-                    continue;
+                foreach ($guests as $key => $guest) {
+                    $guests[$key]['ticket_id'] = $item_id;
+                    $guests[$key]['product_name'] = $item->get_name();
                 }
-            }
-
-            foreach ($order->get_items() as $item) {
-                $guests = (array) json_decode($item->get_meta('_mlx_guests'));
 
                 if (!empty($guests)) {
-                    foreach ($guests as $key => $guest) {
-
-                        $ticket_number = (count($guests) > 1) ? $item->get_id() . $key : $item->get_id();
-
-                        echo '<tr>';
-
-                        echo '<td>';
-                        echo $ticket_number;
-                        echo '</td>';
-
-                        echo '<td>';
-                        echo $guest->first_name . ' ' . $guest->last_name;
-                        echo '</td>';
-
-                        echo '<td>';
-                        echo $guest->street;
-                        echo '</td>';
-
-                        echo '<td>';
-                        echo $guest->zip . ' ' . $guest->city;
-                        echo '</td>';
-
-                        echo '<td>';
-                        echo $guest->telephone;
-                        echo '</td>';
-
-                        echo '<td>';
-                        echo $guest->email;
-                        echo '</td>';
-
-                        echo '<td>';
-                        echo $item->get_data()['name'];
-                        echo '</td>';
-
-                        echo '</tr>';
-                    }
+                    $all_guests = array_merge($all_guests, $guests);
                 }
             }
         }
+
+        return $all_guests;
     }
