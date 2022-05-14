@@ -102,6 +102,7 @@ function bixxs_events_mitarbeitertermineFunc()
 
             // Output the generated PDF to Browser
             $dompdf->stream('mitarbeitertermine.pdf', array('Attachment' => false));
+            exit;
         }
     }
     add_action('admin_init', 'bixxs_events_employee_export_pdf');
