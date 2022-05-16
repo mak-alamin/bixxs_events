@@ -3,7 +3,7 @@
 function bixxs_events_render_employee_pdf($all_guests)
 {
     //format date
-    $format_date = date("d.m.Y", strtotime($_POST['mitarbeitertermine_date']));
+    $format_date = date("d.m.Y", strtotime($_REQUEST['filter_by_date']));
 
     $ticketmaster_options = get_option('bixxs_events_options');
     if (isset($ticketmaster_options['general_settings'])) {

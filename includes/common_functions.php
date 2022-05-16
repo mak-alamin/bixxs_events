@@ -1,10 +1,10 @@
 <?php
 
-function bixxs_events_get_orders_by_employee($employee_id)
+function bixxs_events_get_orders_by_employee($employee_id, $date = '')
 {
     global $wpdb;
 
-    if (current_user_can('bixxs_event_employee')) {
+    if (current_user_can('bixxs_event_employee') || $employee_id) {
         $item_id_sql = "SELECT `order_item_id` FROM `{$wpdb->prefix}woocommerce_order_itemmeta` WHERE `meta_key` = 'bixxs_events_item_employee' AND `meta_value` = $employee_id";
     } else {
         $item_id_sql = "SELECT `order_item_id` FROM `{$wpdb->prefix}woocommerce_order_itemmeta` WHERE `meta_key` = 'bixxs_events_item_employee'";
@@ -32,8 +32,8 @@ function bixxs_events_get_orders_by_employee($employee_id)
 
     $filtered_order_ids = $order_ids;
 
-    if (isset($_POST['mitarbeitertermine_date'])) {
-        $filter_date = date("d.m.Y", strtotime($_POST['mitarbeitertermine_date']));
+    if (!empty($date)) {
+        $filter_date = date("d.m.Y", strtotime($date));
 
         foreach ($order_ids as $key => $id) {
             $order = wc_get_order($id);

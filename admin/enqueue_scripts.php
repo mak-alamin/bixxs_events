@@ -13,6 +13,9 @@ function bixxs_events_load_admin_scripts()
     wp_enqueue_media();
 
     wp_enqueue_script('admin-main-js', plugins_url('/js/admin-main.js', __FILE__), array('jquery', 'media-upload'), time(), true);
+    wp_localize_script('admin-main-js', 'BixxsEventsData', array(
+        'ajaxUrl' => admin_url('admin-ajax.php')
+    ));
 
     wp_enqueue_script('product-metadata-js', plugins_url('/js/product_metadata.js', __FILE__), array('jquery',), time(), true);
 }

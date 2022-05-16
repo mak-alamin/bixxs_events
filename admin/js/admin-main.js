@@ -1,9 +1,52 @@
 (function ($) {
   $(document).ready(function () {
     /**
+     * Employee Tickets
+     */
+    $("#tickets_filter_by").on("change", function () {
+      let filter_by = $(this).val();
+
+      if (filter_by == "date") {
+        $(".filter_by_date").show();
+        $("#filter_by_date").prop("required", true);
+      } else {
+        $("#filter_by_date").prop("required", false);
+        $(".filter_by_date").hide();
+      }
+    });
+
+    $("[name='bixxs_events_employee_tickets_filter']").on(
+      "click",
+      function (e) {
+        e.preventDefault();
+        let loader = '<div class="loader"></div>';
+
+        $(".employee_tickets_data").html(loader);
+
+        let filter_date = $("#filter_by_date").val();
+        let employee_id = $("#select_employee_filter").val();
+
+        jQuery.ajax({
+          method: "GET",
+          url: BixxsEventsData.ajaxUrl,
+          data: {
+            action: "filter_employee_tickets",
+            select_employee_filter: employee_id,
+            filter_by_date: filter_date,
+          },
+          success: function (res) {
+            $(".employee_tickets_data").html(res);
+          },
+          error: function (err) {
+            console.log(err);
+          },
+        });
+      }
+    );
+
+    /**
      * Employee User Roles
      */
-
     let create_employee = location.search.includes("action=create_employee");
 
     if (create_employee) {
