@@ -3,7 +3,10 @@
 function bixxs_events_render_employee_pdf($all_guests)
 {
     //format date
-    $format_date = date("d.m.Y", strtotime($_REQUEST['filter_by_date']));
+    $format_date = '(alle)';
+    if (!empty($_REQUEST['filter_by_date'])) {
+        $format_date = date("d.m.Y", strtotime($_REQUEST['filter_by_date']));
+    }
 
     $ticketmaster_options = get_option('bixxs_events_options');
     if (isset($ticketmaster_options['general_settings'])) {
@@ -93,7 +96,7 @@ function bixxs_events_render_employee_pdf($all_guests)
                     </div>
                 </div>';
 
-    $output .= '<div class="content"><h1>Gästeliste - ' . $format_date . '</h1>';
+    $output .= '<div class="content"><h1>Mitarbeiter Termine - ' . $format_date . '</h1>';
 
     // Render guests
     $output .= '

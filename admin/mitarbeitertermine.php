@@ -186,4 +186,4 @@ function bixxs_events_employee_export_pdf()
         exit;
     }
 }
-add_action('admin_init', 'bixxs_events_employee_export_pdf');
+add_action('init', 'bixxs_events_employee_export_pdf');

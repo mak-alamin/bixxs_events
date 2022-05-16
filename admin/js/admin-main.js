@@ -23,7 +23,11 @@
 
         $(".employee_tickets_data").html(loader);
 
-        let filter_date = $("#filter_by_date").val();
+        let filter_by = $("#tickets_filter_by").val();
+
+        let filter_date =
+          filter_by === "date" ? $("#filter_by_date").val() : "";
+
         let employee_id = $("#select_employee_filter").val();
 
         jQuery.ajax({
@@ -35,6 +39,7 @@
             filter_by_date: filter_date,
           },
           success: function (res) {
+            console.log(res);
             $(".employee_tickets_data").html(res);
           },
           error: function (err) {

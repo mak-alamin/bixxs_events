@@ -11,27 +11,6 @@ Text Domain: bixxs_events
 Domain Path: /languages
 */
 
-/*
-
-require_once "C0C7D3365.php";
-class Veranstaltungen_M0C7D3365 {
-    public $plugin_file=__FILE__;
-    public $responseObj;
-    public $licenseMessage;
-    public $showMessage=false;
-    public $slug="?page=bixxs-events";
-    function __construct() {
-        add_action( 'admin_print_styles', [ $this, 'SetAdminStyle' ] );
-        $licenseKey=get_option("Veranstaltungen_lic_Key","");
-        $liceEmail=get_option( "Veranstaltungen_lic_email","");
-        C0C7D3365::addOnDelete(function(){
-           delete_option("Veranstaltungen_lic_Key");
-        });
-        if(C0C7D3365::CheckWPPlugin($licenseKey,$liceEmail,$this->licenseMessage,$this->responseObj,__FILE__)){
-            add_action( 'admin_menu', [$this,'ActiveAdminMenu'],99999);
-            add_action( 'admin_post_Veranstaltungen_el_deactivate_license', [ $this, 'action_deactivate_license' ] );
-            //$this->licenselMessage=$this->mess;
-*/
 add_action('woocommerce_email_before_order_table', 'bixxs_events_add_content_specific_email', 20, 4);
 
 function bixxs_events_add_content_specific_email($order, $sent_to_admin, $plain_text, $email)
@@ -43,8 +22,6 @@ function bixxs_events_add_content_specific_email($order, $sent_to_admin, $plain_
 	}
 }
 
-
-
 //Restrict direct access
 if (!defined('ABSPATH')) {
 	wp_die("Access not allowed.");
@@ -53,8 +30,9 @@ if (!defined('ABSPATH')) {
 
 require_once(plugin_dir_path(__FILE__) . '/vendor/autoload.php');
 
-
-define('BIXXS_EVENTS_PLUGIN_URL', plugins_url('/', __FILE__));
+if (!defined("BIXXS_EVENTS_PLUGIN_URL")) {
+	define("BIXXS_EVENTS_PLUGIN_URL", plugins_url('/', __FILE__));
+}
 
 require_once __DIR__ . '/includes/common_functions.php';
 
