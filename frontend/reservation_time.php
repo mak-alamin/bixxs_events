@@ -5,6 +5,28 @@
 */
 
 //Show Time Slots on the single product page
+
+// Get options
+$mlx_options = get_option('bixxs_events_options');
+if (isset($mlx_options['guest_settings'])) {
+    $mlx_guest_options = $mlx_options['guest_settings'];
+} else {
+    $mlx_guest_options = array(
+        'show_kalendar' => true,
+        'name' => true,
+        'telephone' => true,
+        'email' =>  true,
+        'street' => true,
+        'zipcity' => true,
+        'max_guests' => 5,
+    );
+}
+$show_calendar = isset($mlx_guest_options['show_kalendar']) ? $mlx_guest_options['show_kalendar'] : true;
+
+if (!$show_calendar) {
+    return;
+}
+
 add_action('woocommerce_before_add_to_cart_button', 'bixxs_events_show_time_slots', 25);
 function bixxs_events_show_time_slots()
 {
