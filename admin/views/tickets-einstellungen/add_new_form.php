@@ -19,7 +19,7 @@
                     <label for="ticketnname">Name:</label>
                 </th>
                 <td>
-                    <input type="text" name="ticketnname" id="ticketnname" class="regular-text" value="">
+                    <input type="text" name="ticketnname" id="ticketnname" class="regular-text" value="" required>
                 </td>
             </tr>
             <tr>

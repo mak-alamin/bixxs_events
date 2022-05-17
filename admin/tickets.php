@@ -98,7 +98,7 @@ function tickesbixxs_events_einstellungenFunc()
 			<div class="divTableBody">
 				<div class="divTableRow">
 					<div class="divTableCell">Name</div>
-					<div class="divTableCell"><input type="text" name="ticketnname" size="70" value="<?php echo $set_ticketnname; ?>"></div>
+					<div class="divTableCell"><input type="text" name="ticketnname" size="70" value="<?php echo $set_ticketnname; ?>" required></div>
 				</div>
 				<div class="divTableRow">
 					<div class="divTableCell">Veransteller</div>

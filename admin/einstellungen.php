@@ -131,7 +131,10 @@ function bixxs_events_einstellungenFunc(){
 
 			<div class="divTableRow">
 			<div class="divTableCell"></div>
-			<div class="divTableCell"><input type="submit" value="Absenden" name="B1"></div>
+				<div class="divTableCell">
+					<input type="submit" value="Absenden" name="B1">
+					<input type="submit" value="Preview PDF" name="bixxs_event_preview_pdf">
+				</div>
 			</div>
 
 			<div class="divTableRow">
@@ -235,19 +238,6 @@ function bixxs_events_DBP_insert_data(){
 }
 add_action('updated_option','bixxs_events_DBP_insert_data');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ?>
 	
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -276,5 +266,3 @@ add_action('updated_option','bixxs_events_DBP_insert_data');
 		$("input[name = 'footerright2']").val(set_footerright2);
 	}); 
 </script> -->
-
-<?php
