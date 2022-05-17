@@ -105,10 +105,7 @@ function bixxs_events_render_employee_pdf($all_guests)
         <tr>
             <td>Ticketnummer</td>
             <td>Name / Vorname</td>
-            <td>Straße Haußnummer</td>
-            <td>PLZ Ort</td>
-            <td>Telefon</td>
-            <td>E-Mail</td>
+            <td>Datum Uhrzeit</td>
             <td>Produkt</td>
         </tr>
         </thead>
@@ -118,8 +115,7 @@ function bixxs_events_render_employee_pdf($all_guests)
     if (!empty($all_guests)) {
         foreach ($all_guests as $guest) {
             $output .= '<tr><td>' . $guest['ticket_id'] . '</td><td>' . $guest['first_name'] . ' ' . $guest['last_name'] .
-                '</td><td>' . $guest['street'] . '</td><td>' . $guest['zip'] . ' ' . $guest['city'] .
-                '</td><td>' . $guest['telephone'] . '</td><td>' . $guest['email'] . '</td><td>' .
+                '</td><td>' .  $guest['reserve_date'] . ', ' . $guest['reserve_time'] . '</td><td>' .
                 $guest['product_name'] . '</td></tr>';
         }
     } else {

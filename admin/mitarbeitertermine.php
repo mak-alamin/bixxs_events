@@ -55,10 +55,7 @@ function bixxs_events_mitarbeitertermineFunc()
             <tr>
                 <td>Ticketnummer</td>
                 <td>Name / Vorname</td>
-                <td>Straße Haußnummer</td>
-                <td>PLZ Ort</td>
-                <td>Telefonnummer</td>
-                <td>E-Mail</td>
+                <td>Datum Uhrzeit</td>
                 <td>Produkt</td>
             </tr>
         </thead>
@@ -103,6 +100,8 @@ function bixxs_events_get_all_employee_guests()
 
             foreach ($guests as $key => $guest) {
                 $guests[$key]['ticket_id'] = $item_id;
+                $guests[$key]['reserve_date'] = $item->get_meta('Reservierung Datum', true);
+                $guests[$key]['reserve_time'] = $item->get_meta('Reservierung Zeit', true);
                 $guests[$key]['product_name'] = $item->get_name();
             }
 
@@ -118,7 +117,6 @@ function bixxs_events_get_all_employee_guests()
 function bixxs_events_show_employee_tickets()
 {
     $all_guests =  bixxs_events_get_all_employee_guests();
-
     $html = '';
 
     if (empty($all_guests)) {
@@ -135,20 +133,24 @@ function bixxs_events_show_employee_tickets()
             $html .=  '</td>';
 
             $html .=  '<td>';
-            $html .=  $guest['street'];
+            $html .=  $guest['reserve_date'] . ', ' . $guest['reserve_time'];
             $html .=  '</td>';
 
-            $html .=  '<td>';
-            $html .=  $guest['zip'] . ' ' . $guest['city'];
-            $html .=  '</td>';
+            // $html .=  '<td>';
+            // $html .=  $guest['street'];
+            // $html .=  '</td>';
 
-            $html .=  '<td>';
-            $html .=  $guest['telephone'];
-            $html .=  '</td>';
+            // $html .=  '<td>';
+            // $html .=  $guest['zip'] . ' ' . $guest['city'];
+            // $html .=  '</td>';
 
-            $html .=  '<td>';
-            $html .=  $guest['email'];
-            $html .=  '</td>';
+            // $html .=  '<td>';
+            // $html .=  $guest['telephone'];
+            // $html .=  '</td>';
+
+            // $html .=  '<td>';
+            // $html .=  $guest['email'];
+            // $html .=  '</td>';
 
             $html .=  '<td>';
             $html .=  $guest['product_name'];
