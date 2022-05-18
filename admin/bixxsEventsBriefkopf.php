@@ -163,7 +163,6 @@ class Bixxs_Events_Briefkopf
 	 */
 	public function show_demo_pdf_template_at_admin()
 	{
-
 		if (isset($_POST['print_pdf_template'])) {
 
 			$options = new Options();
@@ -602,7 +601,6 @@ class Bixxs_Events_Briefkopf
 			exit;
 		}
 	}
-
 
 	/**
 	 * Add PDF Button to View Order Page
