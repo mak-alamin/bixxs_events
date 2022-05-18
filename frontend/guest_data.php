@@ -28,10 +28,15 @@ function bixxs_events_show_guest_selection()
     } else {
         $mlx_guest_options = array(
             'name' => true,
+            'show_name' => true,
             'telephone' => true,
+            'show_telephone' => true,
             'email' =>  true,
+            'show_email' =>  true,
             'street' => true,
+            'show_street' => true,
             'zipcity' => true,
+            'show_zipcity' => true,
             'max_guests' => 5,
         );
     }
@@ -43,12 +48,49 @@ function bixxs_events_show_guest_selection()
     $street = isset($mlx_guest_options['street']) && (bool)$mlx_guest_options['street'] ? 'event-master-required' : '';
     $zipcity = isset($mlx_guest_options['zipcity']) && (bool)$mlx_guest_options['zipcity'] ? 'event-master-required' : '';
 
+    $show_name = isset($mlx_guest_options['show_name']) ? $mlx_guest_options['show_name'] : true;
+    $show_telephone = isset($mlx_guest_options['show_telephone']) ? $mlx_guest_options['show_telephone'] : true;
+    $show_email = isset($mlx_guest_options['show_email']) ? $mlx_guest_options['show_email'] : true;
+    $show_street = isset($mlx_guest_options['show_street']) ? $mlx_guest_options['show_street'] : true;
+    $show_zipcity = isset($mlx_guest_options['show_zipcity']) ? $mlx_guest_options['show_zipcity'] : true;
+
     $guest_selection = '<div id="mlx_guest_selection" class="mlx_guest_selection" data-max-guests="' . $max_guests . '" data-guests="1">';
 
     $name_singular = get_post_meta($post_id, 'bixxs_events_label', true);
 
-
     $customer = new WC_Customer(get_current_user_id());
+
+    $guest_name = $show_name ? '<div class="' . $name . '" >
+                    <label for="mlx_guests[1][first_name]">Vorname</label>
+                    <input type="text" name="mlx_guests[1][first_name]" value="' . $customer->get_billing_first_name() . '" ' . ($name ? 'required' : '') . '/>  
+                </div>
+                <div class="' . $name . '">
+                    <label for="mlx_guests[1][last_name]">Nachname</label>
+                    <input type="text" name="mlx_guests[1][last_name]" value="' . $customer->get_billing_last_name() . '" ' . ($name ? 'required' : '') . '/>    
+                </div> ' : '';
+
+    $guest_phone = $show_telephone ? '<div class="' . $telephone . '">
+    <label for="mlx_guests[1][telephone]">Telefonnummer</label>
+    <input type="tel" name="mlx_guests[1][telephone]" value="' . $customer->get_billing_phone() . '" ' . ($telephone ? 'required' : '') . '/>    
+</div>' : '';
+
+    $guest_email = $show_email ? '<div class="' . $email . '">
+    <label for="mlx_guests[1][email]">E-Mail</label>
+    <input type="email" name="mlx_guests[1][email]" value="' . $customer->get_billing_email() . '" ' . ($email ? 'required' : '') . '/>    
+    </div>' : '';
+
+    $guest_street = $show_street ? '<div class="' . $street . '">
+    <label for="mlx_guests[1][street]">Straße, Hausnummer</label>
+    <input type="text" name="mlx_guests[1][street]" value="' . $customer->get_billing_address() . '" ' . ($street ? 'required' : '') . '/>    
+</div>' : '';
+
+    $guest_zipcity = $show_zipcity ? ' <div class="' . $zipcity . '">
+    <label for="mlx_guests[1][zip]">PLZ</label>
+    <input type="text" name="mlx_guests[1][zip]" value="' . $customer->get_billing_postcode() . '" ' . ($zipcity ? 'required' : '') . '/>   
+</div> <div class="' . $zipcity . '">
+<label for="mlx_guests[1][city]">Ort</label>
+<input type="text" name="mlx_guests[1][city]" value="' . $customer->get_billing_city() . '" ' . ($zipcity ? 'required' : '') . '/>    
+</div>' : '';
 
     $guest_selection .= '
            
@@ -62,34 +104,7 @@ function bixxs_events_show_guest_selection()
             </div>
 		</summary>
 		    <div class="event-master-guest-input">
-                <div class="' . $name . '" >
-                    <label for="mlx_guests[1][first_name]">Vorname</label>
-                    <input type="text" name="mlx_guests[1][first_name]" value="' . $customer->get_billing_first_name() . '" ' . ($name ? 'required' : '') . '/>  
-                </div>
-                <div class="' . $name . '">
-                    <label for="mlx_guests[1][last_name]">Nachname</label>
-                    <input type="text" name="mlx_guests[1][last_name]" value="' . $customer->get_billing_last_name() . '" ' . ($name ? 'required' : '') . '/>    
-                </div>  
-                <div class="' . $telephone . '">
-                    <label for="mlx_guests[1][telephone]">Telefonnummer</label>
-                    <input type="tel" name="mlx_guests[1][telephone]" value="' . $customer->get_billing_phone() . '" ' . ($telephone ? 'required' : '') . '/>    
-                </div>
-                <div class="' . $email . '">
-                    <label for="mlx_guests[1][email]">E-Mail</label>
-                    <input type="email" name="mlx_guests[1][email]" value="' . $customer->get_billing_email() . '" ' . ($email ? 'required' : '') . '/>    
-                </div>
-                <div class="' . $street . '">
-                    <label for="mlx_guests[1][street]">Straße, Hausnummer</label>
-                    <input type="text" name="mlx_guests[1][street]" value="' . $customer->get_billing_address() . '" ' . ($street ? 'required' : '') . '/>    
-                </div>
-                <div class="' . $zipcity . '">
-                    <label for="mlx_guests[1][zip]">PLZ</label>
-                    <input type="text" name="mlx_guests[1][zip]" value="' . $customer->get_billing_postcode() . '" ' . ($zipcity ? 'required' : '') . '/>   
-                </div>
-                <div class="' . $zipcity . '">
-                    <label for="mlx_guests[1][city]">Ort</label>
-                    <input type="text" name="mlx_guests[1][city]" value="' . $customer->get_billing_city() . '" ' . ($zipcity ? 'required' : '') . '/>    
-                </div>';
+                 ' . $guest_name . $guest_phone . $guest_email . $guest_street . $guest_zipcity;
 
 
     // TODO: Remove all ticketmaster_variations
@@ -104,8 +119,6 @@ function bixxs_events_show_guest_selection()
 
         $guest_selection .= '</select></div>';
     }
-
-
 
     $guest_selection .= '</div>
             <div class="event-master-required-info">

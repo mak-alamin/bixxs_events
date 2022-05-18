@@ -15,12 +15,9 @@ function bixxs_events_addingbixxs_events_guestlistFunc()
 
 function bixxs_events_guestlistFunc()
 {
-
     $all_guests = array();
 
 ?>
-
-
     <h1>Gästeliste</h1>
 
     <form action="" method="post">

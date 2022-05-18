@@ -20,10 +20,14 @@ function bixxs_events_extraticketsFunc()
             'show_kalendar' => true,
             'no_kalendar' => true,
             'name' => true,
+            'show_name' => true,
             'telephone' => true,
+            'show_telephone' => true,
             'email' =>  true,
+            'show_email' =>  true,
             'street' => true,
-            'zipcity' => true,
+            'show_street' => true,
+            'show_zipcity' => true,
         );
     }
 
@@ -33,10 +37,15 @@ function bixxs_events_extraticketsFunc()
             'show_kalendar' => isset($_POST['show_kalendar']),
             'no_kalendar' => isset($_POST['no_kalendar']),
             'name' => isset($_POST['name']),
+            'show_name' => isset($_POST['show_name']),
             'telephone' => isset($_POST['telephone']),
+            'show_telephone' => isset($_POST['show_telephone']),
             'email' =>  isset($_POST['email']),
+            'show_email' =>  isset($_POST['show_email']),
             'street' => isset($_POST['street']),
+            'show_street' => isset($_POST['show_street']),
             'zipcity' => isset($_POST['zipcity']),
+            'show_zipcity' => isset($_POST['show_zipcity']),
         );
 
         // save updated options
@@ -49,10 +58,19 @@ function bixxs_events_extraticketsFunc()
     $no_kalendar = isset($mlx_guest_options['no_kalendar']) && (bool)$mlx_guest_options['no_kalendar'] ? ' checked' : '';
 
     $name = isset($mlx_guest_options['name']) && (bool)$mlx_guest_options['name'] ? ' checked' : '';
+    $show_name = isset($mlx_guest_options['show_name']) && (bool)$mlx_guest_options['show_name'] ? ' checked' : '';
+
     $telephone = isset($mlx_guest_options['telephone']) && (bool)$mlx_guest_options['telephone'] ? ' checked' : '';
+    $show_telephone = isset($mlx_guest_options['show_telephone']) && (bool)$mlx_guest_options['show_telephone'] ? ' checked' : '';
+
     $email = isset($mlx_guest_options['email']) && (bool)$mlx_guest_options['email'] ? ' checked' : '';
+    $show_email = isset($mlx_guest_options['show_email']) && (bool)$mlx_guest_options['show_email'] ? ' checked' : '';
+
     $street = isset($mlx_guest_options['street']) && (bool)$mlx_guest_options['street'] ? ' checked' : '';
+    $show_street = isset($mlx_guest_options['show_street']) && (bool)$mlx_guest_options['show_street'] ? ' checked' : '';
+
     $zipcity = isset($mlx_guest_options['zipcity']) && (bool)$mlx_guest_options['zipcity'] ? ' checked' : '';
+    $show_zipcity = isset($mlx_guest_options['show_zipcity']) && (bool)$mlx_guest_options['show_zipcity'] ? ' checked' : '';
 
 
     echo '<div class="wrap">
@@ -80,22 +98,31 @@ function bixxs_events_extraticketsFunc()
                 <td><label for="vorname"><b>Name / Vorname :</b></label></td>
                 <td><input type="checkbox" id="vorname" value="ON" name="name"' . $name . '>
                 <input type="hidden" name="bixxs_events_extra_tickets"></td>
+
+                <td><input type="checkbox" value="ON" name="show_name"' . $show_name . '>
+               </td>
             </tr>
             <tr>
                 <td><label for="phone"><b>Telefonnummer :</b></label></td>
                 <td><input type="checkbox" name="telephone" id="phone" value="ON"' . $telephone . '></td>
+                <td><input type="checkbox" name="show_telephone"  value="ON"' . $show_telephone . '></td>
             </tr>
             <tr>
                 <td><label for="<b>email"><b>E-Mail :</b></label></td>
                 <td><input type="checkbox" name="email" id="email" value="ON"' . $email . '></td>
+                <td><input type="checkbox" name="show_email" id="show_email" value="ON"' . $show_email . '></td>
             </tr>
             <tr>
                 <td><label for="street"><b>Straße Hausnummer:</b></label></td>
                 <td><input type="checkbox" name="street" id="street" value="ON"' . $street . '></td>
+               
+                <td><input type="checkbox" name="show_street" id="show_street" value="ON"' . $show_street . '></td>
             </tr>
             <tr>
                 <td><label for="zipcode"><b>PLZ Ort:</b></label></td>
                 <td><input type="checkbox" name="zipcity" id="zipcode" value="ON"' . $zipcity . '></td>
+                
+                <td><input type="checkbox" name="show_zipcity" id="zipcode" value="ON"' . $show_zipcity . '></td>
             </tr>
 
             <tr>
