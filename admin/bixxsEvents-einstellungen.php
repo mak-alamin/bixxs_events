@@ -363,36 +363,47 @@ class BixxsEventsEinstellungen
 			$ticketnname = (isset($_POST['ticketnname'])) ? $_POST['ticketnname'] : '';
 			$veranstalter = (isset($_POST['veranstalter'])) ? $_POST['veranstalter'] : '';
 			$ort_veranstaltung = (isset($_POST['ort_veranstaltung'])) ? $_POST['ort_veranstaltung'] : '';
-			$height = (isset($_POST['height'])) ? $_POST['height'] : '';
-			$width = (isset($_POST['width'])) ? $_POST['width'] : '';
-			$produktname_left = (isset($_POST['produktname_left'])) ? $_POST['produktname_left'] : '';
-			$produktname_top = (isset($_POST['produktname_top'])) ? $_POST['produktname_top'] : '';
-			$produktname_color = (isset($_POST['produktname_color'])) ? $_POST['produktname_color'] : '';
-			$order_date_left = (isset($_POST['order_date_left'])) ? $_POST['order_date_left'] : '';
-			$order_date_top = (isset($_POST['order_date_top'])) ? $_POST['order_date_top'] : '';
-			$order_date_color = (isset($_POST['order_date_color'])) ? $_POST['order_date_color'] : '';
-			$price_left = (isset($_POST['price_left'])) ? $_POST['price_left'] : '';
-			$price_top = (isset($_POST['price_top'])) ? $_POST['price_top'] : '';
-			$price_color = (isset($_POST['price_color'])) ? $_POST['price_color'] : '';
-			$termien_left = (isset($_POST['termien_left'])) ? $_POST['termien_left'] : '';
-			$termien_top = (isset($_POST['termien_top'])) ? $_POST['termien_top'] : '';
-			$termien_color = (isset($_POST['termien_color'])) ? $_POST['termien_color'] : '';
-			$veranstallter_left = (isset($_POST['veranstallter_left'])) ? $_POST['veranstallter_left'] : '';
-			$veranstallter_top = (isset($_POST['veranstallter_top'])) ? $_POST['veranstallter_top'] : '';
-			$veranstallter_color = (isset($_POST['veranstallter_color'])) ? $_POST['veranstallter_color'] : '';
-			$veranstallter_ort_left = (isset($_POST['veranstallter_ort_left'])) ? $_POST['veranstallter_ort_left'] : '';
-			$veranstallter_ort_top = (isset($_POST['veranstallter_ort_top'])) ? $_POST['veranstallter_ort_top'] : '';
-			$veranstallter_ort_color = (isset($_POST['veranstallter_ort_color'])) ? $_POST['veranstallter_ort_color'] : '';
-			$menge_left = (isset($_POST['menge_left'])) ? $_POST['menge_left'] : '';
-			$menge_top = (isset($_POST['menge_top'])) ? $_POST['menge_top'] : '';
-			$menge_color = (isset($_POST['menge_color'])) ? $_POST['menge_color'] : '';
-			$ticket_number_left = (isset($_POST['ticket_number_left'])) ? $_POST['ticket_number_left'] : '';
-			$ticket_number_top = (isset($_POST['ticket_number_top'])) ? $_POST['ticket_number_top'] : '';
-			$ticket_number_color = (isset($_POST['ticket_number_color'])) ? $_POST['ticket_number_color'] : '';
-			$qrcode_left = (isset($_POST['qrcode_left'])) ? $_POST['qrcode_left'] : '';
-			$qrcode_top = (isset($_POST['qrcode_top'])) ? $_POST['qrcode_top'] : '';
-			$qrcode_color = (isset($_POST['qrcode_color'])) ? $_POST['qrcode_color'] : '';
-			$ticketimage = (isset($_POST['ticketimage'])) ? $_POST['ticketimage'] : '';
+
+			$height = (isset($_POST['height'])) ? $_POST['height'] : '350';
+			$width = (isset($_POST['width'])) ? $_POST['width'] : '700';
+
+			$produktname_left = (!empty($_POST['produktname_left'])) ? $_POST['produktname_left'] : '50';
+			$produktname_top = (!empty($_POST['produktname_top'])) ? $_POST['produktname_top'] : '80';
+			$produktname_color = (!empty($_POST['produktname_color'])) ? $_POST['produktname_color'] : '#000';
+
+			$order_date_left = (!empty($_POST['order_date_left'])) ? $_POST['order_date_left'] : '50';
+			$order_date_top = (!empty($_POST['order_date_top'])) ? $_POST['order_date_top'] : '110';
+			$order_date_color = (!empty($_POST['order_date_color'])) ? $_POST['order_date_color'] : '#000';
+
+			$price_left = (!empty($_POST['price_left'])) ? $_POST['price_left'] : '50';
+			$price_top = (!empty($_POST['price_top'])) ? $_POST['price_top'] : '140';
+			$price_color = (!empty($_POST['price_color'])) ? $_POST['price_color'] : '#000';
+
+			$termien_left = (!empty($_POST['termien_left'])) ? $_POST['termien_left'] : '50';
+			$termien_top = (!empty(trim($_POST['termien_top']))) ? $_POST['termien_top'] : '170';
+			$termien_color = (!empty($_POST['termien_color'])) ? $_POST['termien_color'] : '#000';
+
+			$veranstallter_left = (!empty($_POST['veranstallter_left'])) ? $_POST['veranstallter_left'] : '50';
+			$veranstallter_top = (!empty(trim($_POST['veranstallter_top']))) ? $_POST['veranstallter_top'] : '200';
+			$veranstallter_color = (!empty($_POST['veranstallter_color'])) ? $_POST['veranstallter_color'] : '#000';
+
+			$veranstallter_ort_left = (!empty($_POST['veranstallter_ort_left'])) ? $_POST['veranstallter_ort_left'] : '50';
+			$veranstallter_ort_top = (!empty($_POST['veranstallter_ort_top'])) ? $_POST['veranstallter_ort_top'] : '230';
+			$veranstallter_ort_color = (!empty($_POST['veranstallter_ort_color'])) ? $_POST['veranstallter_ort_color'] : '#000';
+
+			$menge_left = (!empty($_POST['menge_left'])) ? $_POST['menge_left'] : '50';
+			$menge_top = (!empty($_POST['menge_top'])) ? $_POST['menge_top'] : '260';
+			$menge_color = (!empty($_POST['menge_color'])) ? $_POST['menge_color'] : '#000';
+
+			$ticket_number_left = (!empty($_POST['ticket_number_left'])) ? $_POST['ticket_number_left'] : '50';
+			$ticket_number_top = (!empty($_POST['ticket_number_top'])) ? $_POST['ticket_number_top'] : '290';
+			$ticket_number_color = (!empty($_POST['ticket_number_color'])) ? $_POST['ticket_number_color'] : '#000';
+
+			$qrcode_left = (!empty($_POST['qrcode_left'])) ? $_POST['qrcode_left'] : '560';
+			$qrcode_top = (!empty($_POST['qrcode_top'])) ? $_POST['qrcode_top'] : '280';
+			$qrcode_color = (!empty($_POST['qrcode_color'])) ? $_POST['qrcode_color'] : '#000';
+
+			$ticketimage = (!empty($_POST['ticketimage'])) ? $_POST['ticketimage'] : '';
 
 			ob_start();
 			$html = "";

@@ -40,15 +40,10 @@
     }
 
     div.ticket-body {
-        height: 350px;
-        width: 700px;
+        height: <?php echo $height; ?>px;
+        width: <?php echo $width; ?>px;
         position: relative;
         margin-top: 20px;
-    }
-
-    .ticket-body b,
-    .ticket-body span {
-        display: inline-block;
     }
 
     .ticket-body b {
@@ -102,18 +97,23 @@
     </div>
 
     <div class="ticket-body">
-        <b style="position:absolute; top:50px; left: 50px;">Name: Ticket Name</b>
+        <b style="position:absolute; top:<?php echo $produktname_top; ?>px; left: <?php echo $produktname_left; ?>px; color: <?php echo $produktname_color; ?>">Name: Ticket Name</b>
 
-        <span style="position:absolute; top: 80px; left: 50px;">Bestelldatum: 28.06.2021</span>
-        <span style="position:absolute; top:110px; left: 50px;">Preis: €20 </span>
-        <span style="position:absolute; top:230px; left:50px;">Menge: 1</span>
+        <span style="position:absolute; top: <?php echo $order_date_top; ?>px; left:  <?php echo $order_date_left; ?>px; color: <?php echo $order_date_color; ?> ">Bestelldatum: 28.06.2021</span>
 
-        <span style="position:absolute;top: 140px;left: 50px;" class="reservation-date">Termin der Re servierung: 31.12.2021</span>
-        <span style="position:absolute;top: 170px;left: 50px;" class="veranstalter">Veranstalter: Veranstalter</span>
-        <span style="position:absolute;top: 200px;left: 50px;" class="ort">Ort der Veranstaltung: Ort der Veranstaltung</span>
-        <span style="position:absolute;top: 2600px;left: 50px;" class="ticket-number">Ticketnummer: ist gleiche wie Bestellnummer</span>
+        <span style="position:absolute; top:<?php echo $price_top; ?>px; left: <?php echo $price_left; ?>px; color: <?php echo $price_color; ?> ">Preis: €20 </span>
 
-        <img src="<?php echo BIXXS_EVENTS_PLUGIN_URL .  '/img/demo_qrcode.png' ?>" alt="" class="qr-code" style="display:inline-block;position:absolute; top:240px;left:580px;" width="100" height="100">
+        <span style="position:absolute;top: <?php echo $termien_top; ?>px;left:<?php echo $termien_left; ?>px;color:<?php echo $termien_color; ?>" class="reservation-date">Termin der Re servierung: 31.12.2021</span>
+
+        <span style="position:absolute;top: <?php echo $veranstallter_top; ?>px;left:<?php echo $veranstallter_left; ?>px;color:<?php echo $veranstallter_color; ?>" class="veranstalter">Veranstalter: Veranstalter</span>
+
+        <span style="position:absolute;top: <?php echo $veranstallter_ort_top; ?>px;left:<?php echo $veranstallter_ort_left; ?>px;color:<?php echo $veranstallter_ort_color; ?>" class="ort">Ort der Veranstaltung: Ort der Veranstaltung</span>
+
+        <span style="position:absolute;top: <?php echo $menge_top; ?>px;left:<?php echo $menge_left; ?>px;color:<?php echo $menge_color; ?>">Menge: 1</span>
+
+        <span style="position:absolute;top: <?php echo $ticket_number_top; ?>px;left:<?php echo $ticket_number_left; ?>px;color:<?php echo $ticket_number_color; ?>" class="ticket-number">Ticketnummer: ist gleiche wie Bestellnummer</span>
+
+        <img src="<?php echo BIXXS_EVENTS_PLUGIN_URL .  '/img/demo_qrcode.png' ?>" alt="" class="qr-code" style="display:inline-block;position:absolute; top: <?php echo $qrcode_top; ?>px;left:<?php echo $qrcode_left; ?>px" width="100" height="100">
 
         <img src="<?php echo $ticketimage ?>" alt="" class="ticket_bg" width="700" height="352">
     </div>
@@ -128,7 +128,6 @@
 
         <b>Ihr Hinweis:</b><?php echo $this->ticketmaster_general_options['additional_info']; ?>
     </div>
-
 
     <div class="footer">
 

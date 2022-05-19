@@ -3,8 +3,6 @@ require_once("constants.php");
 require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS . "common-functions.php");
 require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS . "enqueue_scripts.php");
 
-require_once __DIR__ . '/update-manager/UpdateClient.class.php';
-
 //Ticket System Welcome page
 require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS . "event-master.php");
 
