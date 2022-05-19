@@ -88,13 +88,7 @@ function bixxs_events_render_employee_pdf($all_guests)
                     <div class="logo">
                         <img src="' . $ticketmaster_general_options['logo'] . '">
                     </div>
-                    <div class="company-details">
-                        <div>' . nl2br($ticketmaster_general_options['footer'][1]) . '</div>
-                    </div>                    
-                    <div class="company-contact">
-                        <div>' . nl2br($ticketmaster_general_options['footer'][2]) . '</div>
-                    </div>
-                </div>';
+                                    </div>';
 
     $output .= '<div class="content"><h1>Mitarbeiter Termine - ' . $format_date . '</h1>';
 
