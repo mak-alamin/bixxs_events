@@ -3,7 +3,7 @@
 Plugin Name: Bixxs Veranstaltungen
 Plugin URI: https://bixxs.de
 Description: Veranstaltungen Enents
-Version: 4.0.6
+Version: 4.0.8
 Author: BIXXS
 Author URI: https://bixxs.de
 License: GPLv3
