@@ -2,7 +2,7 @@
 
 function ticketmaster_render_demo_template($ticketmaster_general_options)
 {
-
+    require_once __DIR__ . '/pdf_fields_options.php';
 ?>
 
     <style>
@@ -109,16 +109,37 @@ function ticketmaster_render_demo_template($ticketmaster_general_options)
         </div>
 
         <div class="ticket-body">
-            <b style="position:absolute; top:50px; left: 50px;">Name: Ticket Name</b>
+            <?php if ($show_pdf_productname) { ?>
+                <b style="position:absolute; top:50px; left: 50px;">Name: Ticket Name</b>
+            <?php } ?>
 
-            <span style="position:absolute; top: 80px; left: 50px;">Bestelldatum: 28.06.2021</span>
-            <span style="position:absolute; top:110px; left: 50px;">Preis: €20 </span>
-            <span style="position:absolute; top:230px; left:50px;">Menge: 1</span>
+            <?php if ($show_pdf_order_date) { ?>
+                <span style="position:absolute; top: 80px; left: 50px;">Bestelldatum: 28.06.2021</span>
+            <?php } ?>
 
-            <span style="position:absolute;top: 140px;left: 50px;" class="reservation-date">Termin der Re servierung: 31.12.2021</span>
-            <span style="position:absolute;top: 170px;left: 50px;" class="veranstalter">Veranstalter: Veranstalter</span>
-            <span style="position:absolute;top: 200px;left: 50px;" class="ort">Ort der Veranstaltung: Ort der Veranstaltung</span>
-            <span style="position:absolute;top: 2600px;left: 50px;" class="ticket-number">Ticketnummer: ist gleiche wie Bestellnummer</span>
+            <?php if ($show_pdf_price) { ?>
+                <span style="position:absolute; top:110px; left: 50px;">Preis: €20 </span>
+            <?php } ?>
+
+            <?php if ($show_pdf_menge) { ?>
+                <span style="position:absolute; top:230px; left:50px;">Menge: 1</span>
+            <?php } ?>
+
+            <?php if ($show_pdf_reserve_time) { ?>
+                <span style="position:absolute;top: 140px;left: 50px;" class="reservation-date">Termin der Re servierung: 31.12.2021</span>
+            <?php } ?>
+
+            <?php if ($show_pdf_veranstalter) { ?>
+                <span style="position:absolute;top: 170px;left: 50px;" class="veranstalter">Veranstalter: Veranstalter</span>
+            <?php } ?>
+
+            <?php if ($show_pdf_ort_veranstalter) { ?>
+                <span style="position:absolute;top: 200px;left: 50px;" class="ort">Ort der Veranstaltung: Ort der Veranstaltung</span>
+            <?php } ?>
+
+            <?php if ($show_pdf_ticketnumber) { ?>
+                <span style="position:absolute;top: 2600px;left: 50px;" class="ticket-number">Ticketnummer: ist gleiche wie Bestellnummer</span>
+            <?php } ?>
 
             <img src="<?php echo BIXXS_EVENTS_PLUGIN_URL .  '/img/demo_qrcode.png' ?>" alt="" class="qr-code" style="display:inline-block;position:absolute; top:240px;left:580px;" width="100" height="100">
 

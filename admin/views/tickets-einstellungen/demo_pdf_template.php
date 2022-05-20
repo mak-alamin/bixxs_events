@@ -1,3 +1,7 @@
+<?php
+require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_options.php';
+?>
+
 <style>
     /* PDF Template Style */
     body,
@@ -97,21 +101,37 @@
     </div>
 
     <div class="ticket-body">
-        <b style="position:absolute; top:<?php echo $produktname_top; ?>px; left: <?php echo $produktname_left; ?>px; color: <?php echo $produktname_color; ?>">Name: Ticket Name</b>
+        <?php if ($show_pdf_productname) { ?>
+            <b style="position:absolute; top:<?php echo $produktname_top; ?>px; left: <?php echo $produktname_left; ?>px; color: <?php echo $produktname_color; ?>">Name: Ticket Name</b>
+        <?php } ?>
 
-        <span style="position:absolute; top: <?php echo $order_date_top; ?>px; left:  <?php echo $order_date_left; ?>px; color: <?php echo $order_date_color; ?> ">Bestelldatum: 28.06.2021</span>
+        <?php if ($show_pdf_order_date) { ?>
+            <span style="position:absolute; top: <?php echo $order_date_top; ?>px; left:  <?php echo $order_date_left; ?>px; color: <?php echo $order_date_color; ?> ">Bestelldatum: 28.06.2021</span>
+        <?php } ?>
 
-        <span style="position:absolute; top:<?php echo $price_top; ?>px; left: <?php echo $price_left; ?>px; color: <?php echo $price_color; ?> ">Preis: €20 </span>
+        <?php if ($show_pdf_price) { ?>
+            <span style="position:absolute; top:<?php echo $price_top; ?>px; left: <?php echo $price_left; ?>px; color: <?php echo $price_color; ?> ">Preis: €20 </span>
+        <?php } ?>
 
-        <span style="position:absolute;top: <?php echo $termien_top; ?>px;left:<?php echo $termien_left; ?>px;color:<?php echo $termien_color; ?>" class="reservation-date">Termin der Re servierung: 31.12.2021</span>
+        <?php if ($show_pdf_reserve_time) { ?>
+            <span style="position:absolute;top: <?php echo $termien_top; ?>px;left:<?php echo $termien_left; ?>px;color:<?php echo $termien_color; ?>" class="reservation-date">Termin der Re servierung: 31.12.2021</span>
+        <?php } ?>
 
-        <span style="position:absolute;top: <?php echo $veranstallter_top; ?>px;left:<?php echo $veranstallter_left; ?>px;color:<?php echo $veranstallter_color; ?>" class="veranstalter">Veranstalter: Veranstalter</span>
+        <?php if ($show_pdf_veranstalter) { ?>
+            <span style="position:absolute;top: <?php echo $veranstallter_top; ?>px;left:<?php echo $veranstallter_left; ?>px;color:<?php echo $veranstallter_color; ?>" class="veranstalter">Veranstalter: Veranstalter</span>
+        <?php } ?>
 
-        <span style="position:absolute;top: <?php echo $veranstallter_ort_top; ?>px;left:<?php echo $veranstallter_ort_left; ?>px;color:<?php echo $veranstallter_ort_color; ?>" class="ort">Ort der Veranstaltung: Ort der Veranstaltung</span>
+        <?php if ($show_pdf_ort_veranstalter) { ?>
+            <span style="position:absolute;top: <?php echo $veranstallter_ort_top; ?>px;left:<?php echo $veranstallter_ort_left; ?>px;color:<?php echo $veranstallter_ort_color; ?>" class="ort">Ort der Veranstaltung: Ort der Veranstaltung</span>
+        <?php } ?>
 
-        <span style="position:absolute;top: <?php echo $menge_top; ?>px;left:<?php echo $menge_left; ?>px;color:<?php echo $menge_color; ?>">Menge: 1</span>
+        <?php if ($show_pdf_menge) { ?>
+            <span style="position:absolute;top: <?php echo $menge_top; ?>px;left:<?php echo $menge_left; ?>px;color:<?php echo $menge_color; ?>">Menge: 1</span>
+        <?php } ?>
 
-        <span style="position:absolute;top: <?php echo $ticket_number_top; ?>px;left:<?php echo $ticket_number_left; ?>px;color:<?php echo $ticket_number_color; ?>" class="ticket-number">Ticketnummer: ist gleiche wie Bestellnummer</span>
+        <?php if ($show_pdf_ticketnumber) { ?>
+            <span style="position:absolute;top: <?php echo $ticket_number_top; ?>px;left:<?php echo $ticket_number_left; ?>px;color:<?php echo $ticket_number_color; ?>" class="ticket-number">Ticketnummer: ist gleiche wie Bestellnummer</span>
+        <?php } ?>
 
         <img src="<?php echo BIXXS_EVENTS_PLUGIN_URL .  '/img/demo_qrcode.png' ?>" alt="" class="qr-code" style="display:inline-block;position:absolute; top: <?php echo $qrcode_top; ?>px;left:<?php echo $qrcode_left; ?>px" width="100" height="100">
 

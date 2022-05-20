@@ -33,6 +33,9 @@ require_once(plugin_dir_path(__FILE__) . '/vendor/autoload.php');
 if (!defined("BIXXS_EVENTS_PLUGIN_URL")) {
 	define("BIXXS_EVENTS_PLUGIN_URL", plugins_url('/', __FILE__));
 }
+if (!defined("BIXXS_EVENTS_PLUGIN_DIR")){
+	define('BIXXS_EVENTS_PLUGIN_DIR', rtrim(plugin_dir_path(__FILE__), "/"));
+}
 
 require_once __DIR__ . '/includes/common_functions.php';
 
