@@ -43,7 +43,7 @@ require_once __DIR__ . '/pdf_fields_options.php';
     }
 
     div.ticket-body {
-        width: <?php echo $img_width; ?>;
+        width: <?php echo $img_width; ?>px;
         height: <?php echo $img_height; ?>px;
         position: relative;
         margin-top: 20px;
@@ -204,10 +204,10 @@ require_once __DIR__ . '/pdf_fields_options.php';
         }
 
         ?>
-        <img src='<?php // echo $qr_code_url; 
-                    ?>' alt='' style='display:inline-block;position:absolute; top:<?php // echo $qrcode_top; 
-                                                                                                            ?>px;left:<?php // echo $qrcode_left; 
-                                                                                                                                                    ?>px;' width="100" height="100">
+        <img src='<?php echo $qr_code_url;
+                    ?>' alt='' style='display:inline-block;position:absolute; top:<?php echo $qrcode_top;
+                                                                                    ?>px;left:<?php echo $qrcode_left;
+                                                                                                ?>px;' width="100" height="100">
 
         <?php
 

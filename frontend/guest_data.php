@@ -200,7 +200,7 @@ function bixxs_events_add_item_meta($item_data, $cart_item)
 add_action('woocommerce_checkout_create_order', 'bixxs_event_before_checkout_create_order', 20, 2);
 function bixxs_event_before_checkout_create_order($order, $data)
 {
-    $download_token = $order->get_id() . '#' . base64_encode(random_bytes(64));
+    $download_token = base64_encode(random_bytes(64));
 
     $order->update_meta_data('pdf_download_token', $download_token);
 }

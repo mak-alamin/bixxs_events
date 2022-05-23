@@ -207,8 +207,8 @@ class Bixxs_Events_Briefkopf
 
 		$download_token = get_post_meta($order_id, 'pdf_download_token', true);
 
-		if ($download_token != $_GET['download_token']) {
-			wp_die("You are not allowed to access here! Invalid Download Token.");
+		if (urldecode(trim($download_token)) != urldecode(trim($_GET['download_token']))) {
+			wp_die("You are not allowed to access here! Invalid Token.");
 		}
 
 		$item_id_from_email = isset($_GET['item_id']) ? $_GET['item_id'] : 0;
@@ -220,7 +220,6 @@ class Bixxs_Events_Briefkopf
 		$order = wc_get_order($order_id);
 
 		$shipping_method = $order->get_shipping_method();
-
 
 		$item = $order->get_items()[$item_id_from_email];
 
@@ -292,13 +291,16 @@ class Bixxs_Events_Briefkopf
 		$qrcode_top = trim($tick_result[0]->qrcode_top);
 		$qrcode_color = trim($tick_result[0]->qrcode_color);
 
+		$guests = json_decode($item->get_meta('_mlx_guests'), true);
+		$guest_number = isset($_GET['guest_number']) ? $_GET['guest_number'] : 1;
+
+		$qr_code_img = $this->generate_qr_code_url($item_id_from_email, $guests, $guest_number, $ticket_template_id, $ticket_name, $order_date, $ticket_price, $veranstalter, $ort_veranstaltung, $qrcode_color);
+
 		$customer_note = $order->get_customer_note();
 
 		//////////////////////////////
 		$paymethod = $order->get_payment_method();
 		$paymethod_title = $order->get_payment_method_title();
-
-		$guests = json_decode($item->get_meta('_mlx_guests'), true);
 
 		// Addons
 		$bixxs_events_addons = $this->generate_addons($item);
@@ -337,6 +339,40 @@ class Bixxs_Events_Briefkopf
 		exit;
 	}
 
+	/**
+	 * Get QR Code Url
+	 */
+	public function generate_qr_code_url($item_id, $guests = [], $guest_number, $ticket_template_id, $ticket_name, $order_date, $ticket_price, $veranstalter, $ort_veranstaltung, $qrcode_color)
+	{
+		if (!class_exists('qrstr')) {
+			include_once plugin_dir_path(__FILE__) . 'phpqrcode-master/qrlib.php';
+		}
+		if (file_exists(plugin_dir_path(__FILE__) . 'phpqrcode-master/index.php') && class_exists('qrstr')) {
+			require plugin_dir_path(__FILE__) . 'phpqrcode-master/index.php';
+		}
+
+		$raw_svg = $qr_code_img[$guest_number - 1];
+
+		$image_path = '/phpqrcode-master/temp/' . md5($item_id) . '.png';
+
+		$image_file = __DIR__ . $image_path;
+
+		$img = new \Imagick();
+		$svg = file_get_contents($raw_svg);
+		$img->readImageBlob($svg);
+		$img->setImageFormat("png24");
+		$img->writeImage($image_file);
+		$img->clear();
+		$img->destroy();
+
+		$image_url = BIXXS_EVENTS_PLUGIN_URL . substr($image_file, strpos($image_file, 'admin/phpqrcode-master/temp'));
+
+		return $image_url;
+	}
+
+	/**
+	 * Generate Addons
+	 */
 	public function generate_addons($item)
 	{
 		$addons = '';
@@ -558,7 +594,6 @@ class Bixxs_Events_Briefkopf
 					echo '</form>';
 
 					// Rebook ticket
-
 					$bixxs_events_end_time = $product->get_meta('bixxs_events_end_time');
 
 					echo '<div><h4>Ticktes umbuchen</h4><form method="post">';

@@ -43,7 +43,7 @@ require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_option
     }
 
     div.ticket-body {
-        width: <?php echo $img_width; ?>;
+        width: <?php echo $img_width; ?>px;
         height: <?php echo $img_height; ?>px;
         position: relative;
         margin-top: 20px;
@@ -100,21 +100,9 @@ require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_option
         </div>
         <div class="header-right">
             <b>Bestellung:</b> <?php echo $order_date; ?><br>
-            <b>Code-ID:</b> <?php
-                            if ($quantity > 1) {
-
-                                echo $ticket_id . $_POST['mlx_generate_events_pdf_template'];
-                            } else {
-                                echo $ticket_id;
-                            } ?>
+            <b>Code-ID:</b> <?php echo $ticket_id; ?>
             <br>
-            <b>Name:</b> <?php
-                            if ($quantity > 1) {
-                            } else {
-                                echo $guests[1]['first_name'];
-                            }
-
-                            ?><br>
+            <b>Name:</b> <?php echo $guests[$guest_number]['first_name']; ?><br>
         </div>
         <div class="clear-fix"></div>
     </div>
@@ -149,18 +137,7 @@ require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_option
         <?php } ?>
 
         <?php if ($show_pdf_price) { ?>
-            <span style="position:absolute; top:<?php echo $price_top; ?>px; left:<?php echo $price_left; ?>px;color:<?php echo $price_color; ?>">Preis: <?php
-
-                                                                                                                                                            if (isset($_POST['guest_price'])) {
-                                                                                                                                                                if ($quantity > 1) {
-                                                                                                                                                                    echo $_POST['guest_price'][$_POST['mlx_generate_events_pdf_template']];
-                                                                                                                                                                } else {
-                                                                                                                                                                    echo $_POST['guest_price'][1];
-                                                                                                                                                                }
-                                                                                                                                                            } else {
-                                                                                                                                                                echo $ticket_price;
-                                                                                                                                                            }
-                                                                                                                                                            ?> &#8364;</span>
+            <span style="position:absolute; top:<?php echo $price_top; ?>px; left:<?php echo $price_left; ?>px;color:<?php echo $price_color; ?>">Preis: <?php echo $ticket_price; ?> &#8364;</span>
         <?php } ?>
 
         <?php if ($show_pdf_menge) { ?>
@@ -183,33 +160,24 @@ require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_option
             if ($show_pdf_ticketnumber) {
                 echo "<span style='position: absolute;top:" . $ticket_number_top . "px;left:" .  $ticket_number_left . "px;color:" . $ticket_number_color . "' >Ticketnummer:";
 
-                if ($quantity > 1) {
-                    echo $ticket_id . $_POST['mlx_generate_events_pdf_template'];
-                } else {
-                    echo $ticket_id;
-                }
+                echo $ticket_id;
+
                 echo '</span>';
             }
         } else {
             if ($show_pdf_ticketnumber) {
                 echo '<span style="position: absolute;top:' . $ticket_number_top . 'px;left: ' . $ticket_number_left . 'px;color:' . $ticket_number_color . '">Gutscheinnummer: ';
-                if ($quantity > 1) {
-                    echo $ticket_id . $_POST['mlx_generate_events_pdf_template'];
-                } else {
-                    echo $ticket_id;
-                }
+
+                echo $ticket_id;
+
                 echo '</span>';
             }
         }
-
         ?>
-        <img src='<?php // echo $qr_code_url; 
-                    ?>' alt='' style='display:inline-block;position:absolute; top:<?php // echo $qrcode_top; 
-                                                                                    ?>px;left:<?php // echo $qrcode_left; 
-                                                                                                ?>px;' width="100" height="100">
+
+        <img src='<?php echo $qr_code_img; ?>' alt='' style='display:inline-block;position:absolute; top:<?php echo $qrcode_top; ?>px;left:<?php echo $qrcode_left; ?>px;' width="100" height="100">
 
         <?php
-
         // Get the image and convert into string
         $img = file_get_contents($ticket_img);
 
@@ -218,7 +186,6 @@ require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_option
         ?>
 
         <img src="data:image/png;base64, <?php echo $data; ?>" alt="" class="ticket_bg">
-
     </div>
 
     <div class="additional-info">
