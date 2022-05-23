@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/pdf_fields_options.php';
+require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_options.php';
 ?>
 
 <style>
@@ -110,9 +110,8 @@ require_once __DIR__ . '/pdf_fields_options.php';
             <br>
             <b>Name:</b> <?php
                             if ($quantity > 1) {
-                                echo $_POST['guest_name'][$_POST['mlx_generate_events_pdf_template']];
                             } else {
-                                echo $_POST['guest_name'][1];
+                                echo $guests[1]['first_name'];
                             }
 
                             ?><br>
@@ -206,8 +205,8 @@ require_once __DIR__ . '/pdf_fields_options.php';
         ?>
         <img src='<?php // echo $qr_code_url; 
                     ?>' alt='' style='display:inline-block;position:absolute; top:<?php // echo $qrcode_top; 
-                                                                                                            ?>px;left:<?php // echo $qrcode_left; 
-                                                                                                                                                    ?>px;' width="100" height="100">
+                                                                                    ?>px;left:<?php // echo $qrcode_left; 
+                                                                                                ?>px;' width="100" height="100">
 
         <?php
 

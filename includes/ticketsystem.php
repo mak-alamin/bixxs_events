@@ -31,9 +31,7 @@ require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "frontend/my_account_tick
 
 require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "frontend/my_account_employee_tab.php");
 
-
 require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin/email_settings.php");
-
 
 // Hilfe
 require_once(BIXXS_EVENTS_INC_PATH . BIXXS_EVENTS_DS . "admin" . BIXXS_EVENTS_DS . "hilfe.php");

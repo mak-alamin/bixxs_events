@@ -141,7 +141,6 @@ add_filter('woocommerce_add_cart_item_data', 'bixxs_events_add_item_data', 10, 3
 function bixxs_events_add_item_data($cart_item_data, $product_id, $variation_id)
 {
     if (isset($_REQUEST['mlx_guests'])) {
-
         $mlx_guests = $_REQUEST['mlx_guests'];
         $mlx_active_guests = array();
         $counter = 1;
@@ -195,6 +194,15 @@ function bixxs_events_add_item_meta($item_data, $cart_item)
     }
 
     return $item_data;
+}
+
+// Add Custom Order meta data
+add_action('woocommerce_checkout_create_order', 'bixxs_event_before_checkout_create_order', 20, 2);
+function bixxs_event_before_checkout_create_order($order, $data)
+{
+    $download_token = $order->get_id() . '#' . base64_encode(random_bytes(64));
+
+    $order->update_meta_data('pdf_download_token', $download_token);
 }
 
 

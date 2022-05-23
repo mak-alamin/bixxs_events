@@ -7,15 +7,12 @@
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-
 class Bixxs_Events_Briefkopf
 {
-
 	protected $ticketmaster_general_options;
 
 	public function __construct()
 	{
-
 		// set basic settings to general settings
 		$ticketmaster_options = get_option('bixxs_events_options');
 		if (isset($ticketmaster_options['general_settings'])) {
@@ -34,7 +31,6 @@ class Bixxs_Events_Briefkopf
 			);
 		}
 
-
 		add_action('admin_menu', [$this, 'bixxs_events_addingbixxs_events_einstellungenFunc']);
 
 		add_action('init', [$this, 'rebooking_tickets']);
@@ -47,6 +43,8 @@ class Bixxs_Events_Briefkopf
 
 		add_action('admin_enqueue_scripts', [$this, 'svg_to_png_script']);
 		add_action('wp_enqueue_scripts', [$this, 'svg_to_png_script']);
+
+		add_action('init', [$this, 'generate_pdf_from_email']);
 	}
 
 	/**
@@ -65,7 +63,6 @@ class Bixxs_Events_Briefkopf
 	 */
 	function settings_page_function()
 	{
-
 		//save options
 		if (isset($_POST['save_general_settings'])) {
 
@@ -197,6 +194,178 @@ class Bixxs_Events_Briefkopf
 		}
 	}
 
+	/**
+	 * Generate PDF from email link
+	 */
+	public function generate_pdf_from_email()
+	{
+		if (!isset($_GET['action']) || $_GET['action'] != 'pdf_download' || !isset($_GET['download_token'])) {
+			return;
+		}
+
+		$order_id = isset($_GET['order_id']) ? $_GET['order_id'] : 0;
+
+		$download_token = get_post_meta($order_id, 'pdf_download_token', true);
+
+		if ($download_token != $_GET['download_token']) {
+			wp_die("You are not allowed to access here! Invalid Download Token.");
+		}
+
+		$item_id_from_email = isset($_GET['item_id']) ? $_GET['item_id'] : 0;
+
+		$ticket_id = isset($_GET['ticket_number']) ? $_GET['ticket_number'] : 0;
+
+		global $wpdb;
+
+		$order = wc_get_order($order_id);
+
+		$shipping_method = $order->get_shipping_method();
+
+
+		$item = $order->get_items()[$item_id_from_email];
+
+		$product = $item->get_product();
+
+		$type = $item->get_type();
+		$product_id = $item->get_product_id();
+
+		$order_date = $order->get_date_created('Y/m/d')->format('d.m.Y');
+
+		$billfirstname = $order->get_billing_first_name();
+		$bill_lastname = $order->get_billing_last_name();
+		$bill_l1 = $order->get_billing_address_1();
+		$bill_l2 = $order->get_billing_address_2();
+		$bill_postcode = $order->get_billing_postcode();
+		$bill_com = $order->get_billing_company();
+		$bill_city = $order->get_billing_city();
+
+		$ticket_name = $item->get_name();
+		$ticket_price = get_post_meta($product_id, '_regular_price', true);
+
+		$quantity = $item->get_quantity();
+		$bixxs_events_reserve_time = $item->get_meta('Reservierung Datum');
+
+		$ticket_template_id = get_post_meta($product_id, 'bixxs_events_event_template', true);
+
+		$product_type = ($ticket_template_id) ? "Ticket" : "Gutschein";
+
+		if ($ticket_template_id) {
+			$tick_result = $wpdb->get_results($wpdb->prepare(
+				"SELECT * FROM {$wpdb->prefix}bixxs_events WHERE id=%d",
+				$ticket_template_id
+			));
+
+			$veranstalter = trim($tick_result[0]->veranstalter);
+			$ort_veranstaltung = trim($tick_result[0]->ort_veranstaltung);
+			$termien_left = trim($tick_result[0]->termien_left);
+			$termien_top = trim($tick_result[0]->termien_top);
+			$termien_color = trim($tick_result[0]->termien_color);
+			$veranstallter_left = trim($tick_result[0]->veranstallter_left);
+			$veranstallter_top = trim($tick_result[0]->veranstallter_top);
+			$veranstallter_color = trim($tick_result[0]->veranstallter_color);
+			$veranstallter_ort_left = trim($tick_result[0]->veranstallter_ort_left);
+			$veranstallter_ort_top = trim($tick_result[0]->veranstallter_ort_top);
+			$veranstallter_ort_color = trim($tick_result[0]->veranstallter_ort_color);
+		}
+
+		$ticket_img = trim($tick_result[0]->ticketimages);
+
+		$img_height = trim($tick_result[0]->height);
+		$img_width = trim($tick_result[0]->width);
+
+		$produktname_left = trim($tick_result[0]->produktname_left);
+		$produktname_top = trim($tick_result[0]->produktname_top);
+		$productname_color = trim($tick_result[0]->produktname_color);
+		$order_date_left = trim($tick_result[0]->order_date_left);
+		$order_date_top = trim($tick_result[0]->order_date_top);
+		$order_date_color = trim($tick_result[0]->order_date_color);
+		$price_left = trim($tick_result[0]->price_left);
+		$price_top = trim($tick_result[0]->price_top);
+		$price_color = trim($tick_result[0]->price_color);
+		$menge_left = trim($tick_result[0]->menge_left);
+		$menge_top = trim($tick_result[0]->menge_top);
+		$menge_color = trim($tick_result[0]->menge_color);
+		$ticket_number_left = trim($tick_result[0]->ticket_number_left);
+		$ticket_number_top = trim($tick_result[0]->ticket_number_top);
+		$ticket_number_color = trim($tick_result[0]->ticket_number_color);
+		$qrcode_left = trim($tick_result[0]->qrcode_left);
+		$qrcode_top = trim($tick_result[0]->qrcode_top);
+		$qrcode_color = trim($tick_result[0]->qrcode_color);
+
+		$customer_note = $order->get_customer_note();
+
+		//////////////////////////////
+		$paymethod = $order->get_payment_method();
+		$paymethod_title = $order->get_payment_method_title();
+
+		$guests = json_decode($item->get_meta('_mlx_guests'), true);
+
+		// Addons
+		$bixxs_events_addons = $this->generate_addons($item);
+
+		$pdf_name = "Ticket-$ticket_id";
+
+		$html = '';
+
+		ob_start();
+
+		header('Content-type: application/pdf');
+		header('Content-Disposition: inline; filename="Ticket.pdf"');
+		header('Content-Transfer-Encoding: binary');
+		header('Accept-Ranges: bytes');
+
+		if (file_exists(plugin_dir_path(__FILE__) . 'views/email_settings/email_pdf.php')) {
+			require_once plugin_dir_path(__FILE__) . 'views/email_settings/email_pdf.php';
+		}
+
+		$html = ob_get_clean();
+
+		$options = new Options();
+		$options->set('defaultFont', 'DejaVu Sans');
+
+		$dompdf = new Dompdf($options);
+		$dompdf->setPaper('A4');
+
+		$dompdf->loadHtml($html);
+
+		// Render the HTML as PDF
+		$dompdf->render();
+
+		ob_end_clean();
+		// Output the generated PDF to Browser
+		$dompdf->stream($pdf_name . '.pdf', array('Attachment' => false));
+		exit;
+	}
+
+	public function generate_addons($item)
+	{
+		$addons = '';
+
+		$addon_fields = json_decode($item->get_meta('_bixxs_events_fields'), true);
+		$selected_addons = json_decode($item->get_meta('_bixxs_events_addons'), true);
+
+		if (!$selected_addons) {
+			$selected_addons = array();
+		}
+
+		foreach ($selected_addons as $key => $selected_addon) {
+			$addon_field = $addon_fields[$key];
+			if ($selected_addon == '' || ($selected_addon == 0 && $addon_field['selection'] == 'number'))
+				continue;
+
+			if ($addon_field['selection'] == 'mc') {
+				$value = implode(' ,', $selected_addon);
+			} else if ($addon_field['selection'] == 'dd') {
+				$value = $addon_field['options'][$selected_addon]['text'];
+			} else {
+				$value = $selected_addon;
+			}
+
+			$addons .= $addon_fields[$key]['label'] . ': ' . $value . '<br>';
+		}
+
+		return $addons;
+	}
 
 	/**
 	 * Generate the "PDF Print Button" and 
@@ -209,7 +378,6 @@ class Bixxs_Events_Briefkopf
 		$chosen_shipping_method = $order->get_shipping_method();
 
 		foreach ($order->get_items() as $item_id => $item) {
-
 			$product = $item->get_product();
 
 			if ('bixxs_events_product' != $product->get_type()) {
@@ -256,6 +424,7 @@ class Bixxs_Events_Briefkopf
 			}
 
 			$ticket_img = trim($tick_result[0]->ticketimages);
+
 			$img_height = trim($tick_result[0]->height);
 			$img_width = trim($tick_result[0]->width);
 
@@ -278,9 +447,11 @@ class Bixxs_Events_Briefkopf
 			$qrcode_top = trim($tick_result[0]->qrcode_top);
 			$qrcode_color = trim($tick_result[0]->qrcode_color);
 
+
 			$customer_note = $order->get_customer_note();
 
-			/////////////////////////////////////////////////////////////
+
+			//////////////////////////////
 			$paymethod = $order->get_payment_method();
 			$paymethod_title = $order->get_payment_method_title();
 
@@ -306,7 +477,9 @@ class Bixxs_Events_Briefkopf
 					<input type="hidden" name="ticket_id" value="<?php echo $item_id; ?>">
 					<input type="hidden" name="ticket_price" value="<?php echo $ticket_price; ?>">
 					<input type="hidden" name="ticket_qty" value="<?php echo $quantity; ?>">
+
 					<input type="hidden" name="ticket_img" value="<?php echo $ticket_img; ?>">
+
 					<input type="hidden" name="img_height" value="<?php echo $img_height; ?>">
 					<input type="hidden" name="img_width" value="<?php echo $img_width; ?>">
 
@@ -353,65 +526,17 @@ class Bixxs_Events_Briefkopf
 						<input type="hidden" name="veranstallter_ort_left" value="<?php echo $veranstallter_ort_left; ?>">
 						<input type="hidden" name="veranstallter_ort_top" value="<?php echo $veranstallter_ort_top; ?>">
 						<input type="hidden" name="veranstallter_ort_color" value="<?php echo $veranstallter_ort_color; ?>">
-
 					<?php }
 
-					// print addons
 
-					$addons = '';
-
-					$addon_fields = json_decode($item->get_meta('_bixxs_events_fields'), true);
-					$selected_addons = json_decode($item->get_meta('_bixxs_events_addons'), true);
-
-					if (!$selected_addons)
-						$selected_addons = array();
-
-					foreach ($selected_addons as $key => $selected_addon) {
-						$addon_field = $addon_fields[$key];
-						if ($selected_addon == '' || ($selected_addon == 0 && $addon_field['selection'] == 'number'))
-							continue;
-
-						if ($addon_field['selection'] == 'mc') {
-							$value = implode(' ,', $selected_addon);
-						} else if ($addon_field['selection'] == 'dd') {
-							$value = $addon_field['options'][$selected_addon]['text'];
-						} else {
-							$value = $selected_addon;
-						}
-
-						$addons .= $addon_fields[$key]['label'] . ': ' . $value . '<br>';
-					}
+					// Addons
+					$addons = $this->generate_addons($item);
 
 
 					echo '<input type="hidden" name="bixxs_events_addons" value="' . $addons . '">';
 
 					// Read guests data
 					$guests = json_decode($item->get_meta('_mlx_guests'), true);
-
-					//                                    			    var_export($guests);
-					//
-					//                                $guests = array(
-					//                                    1 => array(
-					//                                            'active' => 'on', '
-					//                                            first_name' => 'Max',
-					//                                            'last_name' => 'Mustermann',
-					//                                            'telephone' => '0123456789',
-					//                                            'email' => 'info@mustermann.de',
-					//                                            'street' => 'Musterstraße 1',
-					//                                            'zip' => '12345',
-					//                                            'city' => 'Musterstadt',
-					//                                        ),
-					//                                    2 => array(
-					//                                            'active' => 'on',
-					//                                            'first_name' => 'Maria',
-					//                                            'last_name' => 'Musterfrau',
-					//                                            'telephone' => '987654321',
-					//                                            'email' => 'info@musterfrau.de',
-					//                                            'street' => 'Musteralle 2',
-					//                                            'zip' => '987654',
-					//                                            'city' => 'Musteria',
-					//                                        ),
-					//                                    );
 
 					foreach ($guests as $key => $guest) {
 						echo '<input type="hidden" name="guest_name[' . $key . ']" value="' . ($guest['first_name'] ?: '') . ' ' . ($guest['last_name'] ?: '') . '">';
@@ -561,7 +686,6 @@ class Bixxs_Events_Briefkopf
 			$pdf_name = ($ticket_template_id) ? "Ticket-{$ticket_id}" : "Gutschein-{$ticket_id}";
 
 			if ($quantity > 1) {
-
 				$pdfname_ext = $_POST['mlx_generate_events_pdf_template'];
 
 				$pdf_name = $pdf_name . $pdfname_ext . ".pdf";
