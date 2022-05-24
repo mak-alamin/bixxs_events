@@ -89,7 +89,7 @@ require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_option
             <?php
             // Get the image and convert into string
             $img = file_get_contents(
-                $this->ticketmaster_general_options['logo']
+                $this->ticketmaster_options['general_settings']['logo']
             );
 
             // Encode the image string data into base64

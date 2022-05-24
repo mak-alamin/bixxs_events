@@ -1,5 +1,18 @@
 <?php
 
+// Turn off displaying unwanted meta data
+add_filter('woocommerce_order_item_get_formatted_meta_data', 'bixxs_events_off_unwanted_order_item_meta_data', 10, 2);
+function bixxs_events_off_unwanted_order_item_meta_data($formatted_meta, $item)
+{
+    foreach ($formatted_meta as $key => $meta) {
+        if (in_array($meta->key, array('bixxs_events_item_employee'))) {
+            unset($formatted_meta[$key]);
+        }
+    }
+
+    return $formatted_meta;
+}
+
 function bixxs_events_get_orders_by_employee($employee_id, $date = '')
 {
     global $wpdb;

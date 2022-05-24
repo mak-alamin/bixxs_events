@@ -21,7 +21,7 @@ class Bixxs_Events_Briefkopf
 			$this->ticketmaster_general_options = $ticketmaster_options['general_settings'];
 		} else {
 			$this->ticketmaster_general_options = array(
-				'logo' => (isset($_POST['logo'])) ?  esc_url_raw($_POST['logo']) : esc_url(wp_get_attachment_url(get_theme_mod('custom_logo'))),
+				'logo' => (isset($_POST['logo'])) ? esc_url_raw($_POST['logo']) : esc_url(wp_get_attachment_url(get_theme_mod('custom_logo'))),
 				'heading' => '',
 				'info' => '',
 				'additional_info' => '',
