@@ -9,12 +9,14 @@ use Dompdf\Options;
 
 class Bixxs_Events_Briefkopf
 {
+	protected $ticketmaster_options;
 	protected $ticketmaster_general_options;
 
 	public function __construct()
 	{
 		// set basic settings to general settings
-		$ticketmaster_options = get_option('bixxs_events_options');
+		$this->ticketmaster_options = get_option('bixxs_events_options');
+
 		if (isset($ticketmaster_options['general_settings'])) {
 			$this->ticketmaster_general_options = $ticketmaster_options['general_settings'];
 		} else {
@@ -590,18 +592,24 @@ class Bixxs_Events_Briefkopf
 						echo '<input class="button" type="submit" formtarget="_blank" value="Ticket für ' . $guests[1]['first_name'] . ' ' . $guests[1]['last_name'] . '" name="mlx_generate_events_pdf_template" disabled>';
 					}
 
-
 					echo '</form>';
 
+
 					// Rebook ticket
-					$bixxs_events_end_time = $product->get_meta('bixxs_events_end_time');
 
-					echo '<div><h4>Ticktes umbuchen</h4><form method="post">';
-					echo '<input class="bixxs_events_datetimepicker" type="text" name="bixxs_events_reserve_time" placeholder="d.h. ' . date('d.m.Y') . '" autocomplete="off" data-product="' . $product_id . '" data-start="" data-end="' . $bixxs_events_end_time . '"><br>';
-					echo '<input type="hidden" name="item_id" value="' . $item_id . '">';
-					echo '<div style="margin: 20px;"><input class="ticketmaster-change-reservation-date button alt" type="submit" value="Tickets umbuchen" name="rebook_ticket"></div>';
+					$guest_settings = isset($this->ticketmaster_options['guest_settings']) ? $this->ticketmaster_options['guest_settings'] : [];
 
-					echo '</form></div>';
+					if (isset($guest_settings['show_kalendar']) && $guest_settings['show_kalendar']) {
+						$bixxs_events_end_time = $product->get_meta('bixxs_events_end_time');
+
+						echo '<div><h4>Ticktes umbuchen</h4><form method="post">';
+						echo '<input class="bixxs_events_datetimepicker" type="text" name="bixxs_events_reserve_time" placeholder="d.h. ' . date('d.m.Y') . '" autocomplete="off" data-product="' . $product_id . '" data-start="" data-end="' . $bixxs_events_end_time . '"><br>';
+						echo '<input type="hidden" name="item_id" value="' . $item_id . '">';
+						echo '<div style="margin: 20px;"><input class="ticketmaster-change-reservation-date button alt" type="submit" value="Tickets umbuchen" name="rebook_ticket"></div>';
+
+						echo '</form></div>';
+					}
+
 
 					if (!class_exists('qrstr')) {
 						include_once plugin_dir_path(__FILE__) . 'phpqrcode-master/qrlib.php';

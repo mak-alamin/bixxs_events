@@ -1,6 +1,8 @@
 <div id='bixxs_events_settings' class='panel woocommerce_options_panel'>
     <div class='options_group'>
         <?php
+        $bixxs_events_options = get_option('bixxs_events_options');
+        $guest_settings = isset($bixxs_events_options['guest_settings']) ?  $bixxs_events_options['guest_settings']  : [];
 
         woocommerce_wp_text_input(
             array(
@@ -107,42 +109,44 @@
             )
         );
 
-        echo ' <h4>Verfügbare Tickets pro Tag</h4>';
+        if (isset($guest_settings['show_kalendar']) && $guest_settings['show_kalendar']) {
+            echo ' <h4>Verfügbare Tickets pro Tag</h4>';
 
-        $days = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
-        foreach ($days as $day) {
-            $day_key = sanitize_title($day);
+            $days = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
+            foreach ($days as $day) {
+                $day_key = sanitize_title($day);
 
         ?>
-            <div class="ui-tab">
-                <div class="tab-title"><?php echo $day; ?></div>
-                <div class='tab-content'>
-                    <button class="ticketmaster-add-timeslots button button-primary" data-day="<?php echo $day_key; ?>" type="button">Timeslot hinzufügen</button>
-                    <div class="timeslots-wrap-<?php echo $day_key; ?>">
-                        <?php
-                        $timeslots = get_post_meta($post->ID, 'timeslots_selection', true);
+                <div class="ui-tab">
+                    <div class="tab-title"><?php echo $day; ?></div>
+                    <div class='tab-content'>
+                        <button class="ticketmaster-add-timeslots button button-primary" data-day="<?php echo $day_key; ?>" type="button">Timeslot hinzufügen</button>
+                        <div class="timeslots-wrap-<?php echo $day_key; ?>">
+                            <?php
+                            $timeslots = get_post_meta($post->ID, 'timeslots_selection', true);
 
-                        $timeslots = unserialize($timeslots);
+                            $timeslots = unserialize($timeslots);
 
-                        if (!empty($timeslots) && isset($timeslots['timeslots'][$day_key])) {
+                            if (!empty($timeslots) && isset($timeslots['timeslots'][$day_key])) {
 
-                            foreach ($timeslots['timeslots'][$day_key] as $key => $timeslot) {
-                                list($hour, $minute) = explode(':', $timeslot);
-                                $available_tickets = $timeslots['tickets'][$day_key][$key];
-                        ?>
-                                <div class="time-slot-wrap">
-                                    <input type="number" step="1" min="0" max="23" class='hour_time_input' placeholder="HH" value="<?php echo $hour ?>">
-                                    <input type="number" step="5" min="0" max="59" class='minute_time_input' placeholder="mm" value="<?php echo $minute; ?>">
-                                    <input type="number" name="timeslots_selection[tickets][<?php echo $day_key; ?>][]" value="<?php echo $available_tickets; ?>" placeholder="Tickets">
-                                    <input type="hidden" name="timeslots_selection[timeslots][<?php echo $day_key; ?>][]" value="<?php echo $timeslot; ?>">
-                                    <button type="button" class="button button-outline-secondary remove-time-slot"> <i class='dashicons dashicons-no '></i> </button>
-                                </div>
-                        <?php }
-                        } ?>
+                                foreach ($timeslots['timeslots'][$day_key] as $key => $timeslot) {
+                                    list($hour, $minute) = explode(':', $timeslot);
+                                    $available_tickets = $timeslots['tickets'][$day_key][$key];
+                            ?>
+                                    <div class="time-slot-wrap">
+                                        <input type="number" step="1" min="0" max="23" class='hour_time_input' placeholder="HH" value="<?php echo $hour ?>">
+                                        <input type="number" step="5" min="0" max="59" class='minute_time_input' placeholder="mm" value="<?php echo $minute; ?>">
+                                        <input type="number" name="timeslots_selection[tickets][<?php echo $day_key; ?>][]" value="<?php echo $available_tickets; ?>" placeholder="Tickets">
+                                        <input type="hidden" name="timeslots_selection[timeslots][<?php echo $day_key; ?>][]" value="<?php echo $timeslot; ?>">
+                                        <button type="button" class="button button-outline-secondary remove-time-slot"> <i class='dashicons dashicons-no '></i> </button>
+                                    </div>
+                            <?php }
+                            } ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php } ?>
+        <?php }
+        } ?>
     </div>
 </div>
 
