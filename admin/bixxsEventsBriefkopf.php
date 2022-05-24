@@ -493,7 +493,7 @@ class Bixxs_Events_Briefkopf
 			$paymethod = $order->get_payment_method();
 			$paymethod_title = $order->get_payment_method_title();
 
-			if ($order->get_status() == 'completed' || $paymethod != 'bacs') {
+			if ($order->get_status() == 'completed' || ($paymethod != 'bacs' && $paymethod != 'cheque')) {
 				$guests = json_decode($item->get_meta('_mlx_guests'), true);
 
 				echo '<h3>' . $ticket_name . ' am ' . $bixxs_events_reserve_time . '</h3>';

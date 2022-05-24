@@ -194,9 +194,10 @@ function bixxs_events_send_email($type, WC_Order_Item $item, $guest_number = 1, 
 // add_action('init', 'bixxs_events_send_initial_email');
 
 add_action('woocommerce_payment_complete', 'bixxs_events_send_initial_email');
+add_action('woocommerce_order_status_completed', 'bixxs_events_send_initial_email');
 function bixxs_events_send_initial_email($order_id)
 {
-    $order = wc_get_order(88);
+    $order = wc_get_order($order_id);
     $items = $order->get_items();
 
     error_log(print_r($items, true));

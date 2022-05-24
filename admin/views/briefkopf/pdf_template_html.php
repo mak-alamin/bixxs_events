@@ -89,7 +89,7 @@ require_once __DIR__ . '/pdf_fields_options.php';
             <?php
             // Get the image and convert into string
             $img = file_get_contents(
-                $this->ticketmaster_general_options['logo']
+                $this->ticketmaster_options['general_settings']['logo']
             );
 
             // Encode the image string data into base64
