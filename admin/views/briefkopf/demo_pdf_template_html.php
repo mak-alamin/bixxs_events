@@ -159,7 +159,6 @@ function ticketmaster_render_demo_template($ticketmaster_general_options)
 
 
         <div class="footer">
-
             <div class="footer-box">
                 <small><?php echo nl2br($ticketmaster_general_options['footer'][1]); ?></small>
             </div>

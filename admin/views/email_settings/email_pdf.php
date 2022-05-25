@@ -108,7 +108,7 @@ require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_option
     </div>
 
     <div class="header-address">
-        <p><b><?php echo $this->ticketmaster_general_options['heading']; ?></b></p>
+        <p><b><?php echo $this->ticketmaster_options['general_settings']['heading']; ?></b></p>
         <span> <?php echo '' . $billfirstname . ' ' . $bill_lastname; ?></span><br>
 
         <?php if (!empty($bill_com)) { ?>
@@ -122,7 +122,7 @@ require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_option
         <?php } ?>
 
         <span><?php echo '' . $bill_postcode ?> </span> <span><?php echo $bill_city ?> </span><br><br>
-        <span><?php echo $this->ticketmaster_general_options['info'] ?> </span>
+        <span><?php echo $this->ticketmaster_options['general_settings']['info'] ?> </span>
     </div>
 
     <div class="ticket-body">
@@ -190,7 +190,7 @@ require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_option
 
     <div class="additional-info">
         <p><b>Zusammenfassung:</b>
-            <span><?php echo $this->ticketmaster_general_options['additional_info']; ?></span>
+            <span><?php echo $this->ticketmaster_options['general_settings']['additional_info']; ?></span>
         </p>
 
         <p><b>Auswahl:</b><br>
@@ -207,13 +207,13 @@ require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_option
     <div class="footer">
 
         <div class="footer-box">
-            <small><?php echo nl2br($this->ticketmaster_general_options['footer'][1]); ?></small>
+            <small><?php echo nl2br($this->ticketmaster_options['general_settings']['footer'][1]); ?></small>
         </div>
         <div class="footer-box">
-            <small><?php echo nl2br($this->ticketmaster_general_options['footer'][2]); ?></small>
+            <small><?php echo nl2br($this->ticketmaster_options['general_settings']['footer'][2]); ?></small>
         </div>
         <div class="footer-box">
-            <small><?php echo nl2br($this->ticketmaster_general_options['footer'][3]); ?></small>
+            <small><?php echo nl2br($this->ticketmaster_options['general_settings']['footer'][3]); ?></small>
         </div>
     </div>
 </div>

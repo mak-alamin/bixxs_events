@@ -205,7 +205,6 @@ function bixxs_event_before_checkout_create_order($order, $data)
     $order->update_meta_data('pdf_download_token', $download_token);
 }
 
-
 add_action('woocommerce_checkout_create_order_line_item', 'bixxs_events_add_custom_order_line_item_meta', 15, 4);
 
 function bixxs_events_add_custom_order_line_item_meta($item, $cart_item_key, $values, $order)

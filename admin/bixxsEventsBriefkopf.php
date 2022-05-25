@@ -41,7 +41,7 @@ class Bixxs_Events_Briefkopf
 
 		add_filter('woocommerce_thankyou_order_received_text', [$this, 'woo_change_order_received_text'], 10, 3);
 
-		add_action('woocommerce_order_details_before_order_table_items', [$this, 'woo_add_pdf_button_in_order_details'],);
+		add_action('woocommerce_order_details_before_order_table', [$this, 'woo_add_pdf_button_in_order_details'],);
 
 		add_action('admin_enqueue_scripts', [$this, 'svg_to_png_script']);
 		add_action('wp_enqueue_scripts', [$this, 'svg_to_png_script']);
@@ -90,7 +90,7 @@ class Bixxs_Events_Briefkopf
 			require_once __DIR__ . '/views/briefkopf/html_form.php';
 		}
 
-		ticketmaster_render_general_settings($this->ticketmaster_general_options);
+		ticketmaster_render_general_settings($this->ticketmaster_options['general_settings']);
 	}
 
 	/*
@@ -180,8 +180,7 @@ class Bixxs_Events_Briefkopf
 
 			require_once 'views/briefkopf/demo_pdf_template_html.php';
 
-			ticketmaster_render_demo_template($this->ticketmaster_general_options);
-
+			ticketmaster_render_demo_template($this->ticketmaster_options['general_settings']);
 
 			$html = ob_get_clean();
 
@@ -493,14 +492,13 @@ class Bixxs_Events_Briefkopf
 			$paymethod = $order->get_payment_method();
 			$paymethod_title = $order->get_payment_method_title();
 
-			if ($order->get_status() == 'completed' || ($paymethod != 'bacs' && $paymethod != 'cheque')) {
+			if ($order->get_status() == 'completed' || ($paymethod != 'bacs' && $paymethod != 'cheque' && $paymethod != 'cod')) {
 				$guests = json_decode($item->get_meta('_mlx_guests'), true);
 
 				echo '<h3>' . $ticket_name . ' am ' . $bixxs_events_reserve_time . '</h3>';
 				echo "<h4> Klicken Sie auf den Button unten, um Ihre Bestellung zu drucken $product_type</h4>";
 ?>
-
-				<form method="post">
+				<form action="" method="post" class="bixxs_event_pdf_generation_form">
 					<input type="hidden" name="f_name" value="<?php echo $order->get_billing_first_name(); ?>">
 					<input type="hidden" name="l_name" value="<?php echo $order->get_billing_last_name(); ?>">
 					<input type="hidden" name="bill_l1" value="<?php echo $order->get_billing_address_1(); ?>">
@@ -596,7 +594,6 @@ class Bixxs_Events_Briefkopf
 
 
 					// Rebook ticket
-
 					$guest_settings = isset($this->ticketmaster_options['guest_settings']) ? $this->ticketmaster_options['guest_settings'] : [];
 
 					if (isset($guest_settings['show_kalendar']) && $guest_settings['show_kalendar']) {
@@ -609,7 +606,6 @@ class Bixxs_Events_Briefkopf
 
 						echo '</form></div>';
 					}
-
 
 					if (!class_exists('qrstr')) {
 						include_once plugin_dir_path(__FILE__) . 'phpqrcode-master/qrlib.php';
@@ -781,7 +777,8 @@ class Bixxs_Events_Briefkopf
 		$order = wc_get_order($order_id);
 
 		$this->woo_change_order_received_text(array(), $order);
-		echo '</br></br>';
+
+		echo '<br><br>';
 	}
 }
 
