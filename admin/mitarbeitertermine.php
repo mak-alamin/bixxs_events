@@ -167,6 +167,19 @@ function bixxs_events_show_employee_tickets()
 function bixxs_events_employee_export_pdf()
 {
     if (isset($_REQUEST['bixxs_events_employee_tickets_pdf'])) {
+        $employee_name = 'Mitarbeiter';
+        if (current_user_can('bixxs_event_employee')) {
+            $current_user = wp_get_current_user();
+
+            $employee_name = $current_user->data->display_name;
+        } else if (is_admin()) {
+            $employee_id = isset($_REQUEST['select_employee_filter']) ? $_REQUEST['select_employee_filter'] : 0;
+
+            if ($employee_id) {
+                $employee_name = get_user_by('id', $employee_id)->display_name;
+            }
+        }
+
         $all_guests = bixxs_events_get_all_employee_guests();
 
         require_once __DIR__ . '/views/mitarbeiter/template_pdf.php';
@@ -178,7 +191,7 @@ function bixxs_events_employee_export_pdf()
 
         $dompdf->setPaper('A4');
 
-        $html = bixxs_events_render_employee_pdf($all_guests);
+        $html = bixxs_events_render_employee_pdf($all_guests, $employee_name);
 
         $dompdf->loadHtml($html);
 

@@ -1,9 +1,9 @@
 <?php
 
-function bixxs_events_render_employee_pdf($all_guests)
+function bixxs_events_render_employee_pdf($all_guests, $employee_name = '')
 {
     //format date
-    $format_date = '(alle)';
+    $format_date = 'alle';
     if (!empty($_REQUEST['filter_by_date'])) {
         $format_date = date("d.m.Y", strtotime($_REQUEST['filter_by_date']));
     }
@@ -83,14 +83,13 @@ function bixxs_events_render_employee_pdf($all_guests)
     ';
 
     // Add header
-
     $output .= '<div class="header">
                     <div class="logo">
                         <img src="' . $ticketmaster_general_options['logo'] . '">
                     </div>
                                     </div>';
 
-    $output .= '<div class="content"><h1>Mitarbeiter Termine - ' . $format_date . '</h1>';
+    $output .= '<div class="content"><h1>Termine für ' . $employee_name . ' (' . $format_date . ')</h1>';
 
     // Render guests
     $output .= '
