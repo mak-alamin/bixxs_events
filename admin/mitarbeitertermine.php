@@ -92,21 +92,23 @@ function bixxs_events_get_all_employee_guests()
 
     $all_guests = [];
 
-    foreach ($order_ids as $id) {
-        $order = wc_get_order($id);
+    if (!empty($order_ids)) {
+        foreach ($order_ids as $id) {
+            $order = wc_get_order($id);
 
-        foreach ($order->get_items() as $item_id => $item) {
-            $guests = json_decode($item->get_meta('_mlx_guests'), true);
+            foreach ($order->get_items() as $item_id => $item) {
+                $guests = json_decode($item->get_meta('_mlx_guests'), true);
 
-            foreach ($guests as $key => $guest) {
-                $guests[$key]['ticket_id'] = $item_id;
-                $guests[$key]['reserve_date'] = $item->get_meta('Reservierung Datum', true);
-                $guests[$key]['reserve_time'] = $item->get_meta('Reservierung Zeit', true);
-                $guests[$key]['product_name'] = $item->get_name();
-            }
+                foreach ($guests as $key => $guest) {
+                    $guests[$key]['ticket_id'] = $item_id;
+                    $guests[$key]['reserve_date'] = $item->get_meta('Reservierung Datum', true);
+                    $guests[$key]['reserve_time'] = $item->get_meta('Reservierung Zeit', true);
+                    $guests[$key]['product_name'] = $item->get_name();
+                }
 
-            if (!empty($guests)) {
-                $all_guests = array_merge($all_guests, $guests);
+                if (!empty($guests)) {
+                    $all_guests = array_merge($all_guests, $guests);
+                }
             }
         }
     }

@@ -114,7 +114,7 @@ Ihre Freunde im Ticketshop Solutions Demo Shop';
     require_once __DIR__ . '/views/email_settings/email_fields.php';
 }
 
-function bixxs_events_send_email($type, WC_Order_Item $item, $guest_number = 1, $guest_email = '')
+function bixxs_events_send_email($type, WC_Order_Item $item, $guest_number = 1, $guest_email = '', $send_to_admin = true)
 {
     error_log(print_r($item, true));
     error_log($type);
@@ -184,9 +184,12 @@ function bixxs_events_send_email($type, WC_Order_Item $item, $guest_number = 1, 
     }
 
     wp_mail($order->get_billing_email(), $subject, $body);
-    wp_mail(get_option('admin_email'), $subject, $body);
 
-    if (!empty($guest_email) && $guest_email != $order->get_billing_email() && $guest_email != get_option('admin_email')) {
+    if ($send_to_admin) {
+        wp_mail(get_option('admin_email'), $subject, $body);
+    }
+
+    if (!empty($guest_email) && $guest_email != $order->get_billing_email()) {
         wp_mail($guest_email, $subject, $body);
     }
 }
@@ -213,7 +216,7 @@ function bixxs_events_send_initial_email($order_id)
             bixxs_events_send_email('buy_ticket', $item);
 
             foreach ($guests as $key => $guest) {
-                bixxs_events_send_email('download_ticket', $item, $key, $guest['email']);
+                bixxs_events_send_email('download_ticket', $item, $key, $guest['email'], false);
             }
         }
     }

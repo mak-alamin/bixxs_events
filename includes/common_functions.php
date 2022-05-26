@@ -25,6 +25,10 @@ function bixxs_events_get_orders_by_employee($employee_id, $date = '')
 
     $order_items = $wpdb->get_results($item_id_sql);
 
+    if (empty($order_items)) {
+        return [];
+    }
+
     $order_item_ids = [];
 
     foreach ($order_items as $key => $item) {
