@@ -79,7 +79,7 @@ Ihre Freunde im Ticketshop Solutions Demo Shop';
     if (isset($_POST['save_email_settings'])) {
 
         $buy_tickets = array(
-            'active' => isset($_POST['email_settings']['buy_ticket']['active']) ? $_POST['email_settings']['buy_ticket']['active'] : true,
+            'active' => isset($_POST['email_settings']['buy_ticket']['active']),
 
             'subject' => isset($_POST['email_settings']['buy_ticket']['subject']) ? sanitize_text_field($_POST['email_settings']['buy_ticket']['subject']) : 'Neues Ticket - [veranstalter]',
 
@@ -87,7 +87,7 @@ Ihre Freunde im Ticketshop Solutions Demo Shop';
         );
 
         $rebook_tickets = array(
-            'active' => isset($_POST['email_settings']['rebook_ticket']['active']) ? $_POST['email_settings']['rebook_ticket']['active'] : true,
+            'active' => isset($_POST['email_settings']['rebook_ticket']['active']),
 
             'subject' => isset($_POST['email_settings']['rebook_ticket']['subject']) ? sanitize_text_field($_POST['email_settings']['rebook_ticket']['subject']) : 'Ticket erfolgreich umgebucht',
 
@@ -95,7 +95,7 @@ Ihre Freunde im Ticketshop Solutions Demo Shop';
         );
 
         $download_tickets = array(
-            'active' => isset($_POST['email_settings']['download_ticket']['active']) ? $_POST['email_settings']['download_ticket']['active'] : true,
+            'active' => isset($_POST['email_settings']['download_ticket']['active']),
 
             'subject' => isset($_POST['email_settings']['download_ticket']['subject']) ? sanitize_text_field($_POST['email_settings']['download_ticket']['subject']) : 'Downloadbestätigung',
 
@@ -193,8 +193,6 @@ function bixxs_events_send_email($type, WC_Order_Item $item, $guest_number = 1, 
         wp_mail($guest_email, $subject, $body);
     }
 }
-
-// add_action('init', 'bixxs_events_send_initial_email');
 
 add_action('woocommerce_payment_complete', 'bixxs_events_send_initial_email');
 add_action('woocommerce_order_status_completed', 'bixxs_events_send_initial_email');
