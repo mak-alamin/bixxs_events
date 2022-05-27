@@ -183,14 +183,19 @@ function bixxs_events_send_email($type, WC_Order_Item $item, $guest_number = 1, 
         $body = str_replace($key, $value, $body);
     }
 
-    wp_mail($order->get_billing_email(), $subject, $body);
+    $headers = array(
+        'Content-Type: text/html; charset=UTF-8',
+        'From: ' . bloginfo('name') . ' <' . get_option('woocommerce_email_from_address') . '>'
+    );
+
+    wp_mail($order->get_billing_email(), $subject, $body, $headers);
 
     if ($send_to_admin) {
-        wp_mail(get_option('admin_email'), $subject, $body);
+        wp_mail(get_option('admin_email'), $subject, $body, $headers);
     }
 
     if (!empty($guest_email) && $guest_email != $order->get_billing_email()) {
-        wp_mail($guest_email, $subject, $body);
+        wp_mail($guest_email, $subject, $body, $headers);
     }
 }
 
