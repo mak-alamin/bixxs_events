@@ -13,7 +13,6 @@ function ticketmaster_render_demo_template($ticketmaster_general_options)
             height: 100%;
             font-size: 12px;
             font-family: "DejaVu Sans";
-            page-break-inside: avoid;
         }
 
         .clear-fix {
@@ -32,13 +31,13 @@ function ticketmaster_render_demo_template($ticketmaster_general_options)
         .header-right {
             position: absolute;
             margin-left: 500px;
-            margin-top: 40px;
+            margin-top: 90px;
         }
 
         .header-address {
             border-bottom: 1px dashed #333333;
             padding-bottom: 20px;
-            padding-top: 40px;
+            padding-top: 70px;
         }
 
         .header-address b {
@@ -73,6 +72,7 @@ function ticketmaster_render_demo_template($ticketmaster_general_options)
 
         /* Footer Starts */
         .footer {
+            margin-top: 40px;
             position: absolute;
             bottom: 70px;
         }
@@ -143,7 +143,7 @@ function ticketmaster_render_demo_template($ticketmaster_general_options)
 
             <img src="<?php echo BIXXS_EVENTS_PLUGIN_URL .  '/img/demo_qrcode.png' ?>" alt="" class="qr-code" style="display:inline-block;position:absolute; top:240px;left:580px;" width="100" height="100">
 
-            <img src="<?php echo BIXXS_EVENTS_PLUGIN_URL .  '/img/demo_ticket_bg.jpg' ?>" alt="" class="ticket_bg" width="700" height="352">
+            <img src="https://dev2.bixxs.de/wp-content/uploads/2022/05/tp-tickets.png" alt="" class="ticket_bg" width="700" height="352">
         </div>
 
         <div class="additional-info">
@@ -157,7 +157,6 @@ function ticketmaster_render_demo_template($ticketmaster_general_options)
             <b>Ihr Hinweis:</b><?php echo $ticketmaster_general_options['additional_info']; ?>
         </div>
 
-
         <div class="footer">
             <div class="footer-box">
                 <small><?php echo nl2br($ticketmaster_general_options['footer'][1]); ?></small>
@@ -169,7 +168,7 @@ function ticketmaster_render_demo_template($ticketmaster_general_options)
                 <small><?php echo nl2br($ticketmaster_general_options['footer'][3]); ?></small>
             </div>
         </div>
+        <div class="clear-fix"></div>
     </div>
-
 <?php
 }
