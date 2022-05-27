@@ -12,44 +12,44 @@ function bixxs_events_addingbixxs_events_emailsettingsFunc()
 function bixxs_events_emailsettingsFunc()
 {
     $email_body =
-        'Hallo [name],
+        '<p>Hallo [name],</p>
 
-Dies ist nur eine E-Mail, um Ihren Termin zu bestätigen.
+        <p>Dies ist nur eine E-Mail, um Ihren Termin zu bestätigen.
+</p>
+<p>Bestelldatum: [bestelldatum] </p>
+<p>Termin der Reservierung: [ticketdatum] </p>
+<p>Veranstalter: [veranstalter] </p>
+<p>Ort der Veranstaltung: [ort_veranstaltung] </p>
+<p>Ticketnummer: [ticketnummer]</p>
 
-Bestelldatum: [bestelldatum]
-Termin der Reservierung: [ticketdatum]
-Veranstalter: [veranstalter]
-Ort der Veranstaltung: [ort_veranstaltung]
-Ticketnummer: [ticketnummer]
-
-Mit freundlichen Grüßen,
-Ihre Freunde im Ticketshop Solutions Demo Shop';
+<p>Mit freundlichen Grüßen,
+Ihre Freunde im Ticketshop Solutions Demo Shop</p>';
 
     $email_body_reebok =
         'Hallo [name],
 
-Dies ist nur eine E-Mail, für Ihre Umbuchung des Tickets: [ticketnummer]. 
+<p>Dies ist nur eine E-Mail, für Ihre Umbuchung des Tickets: [ticketnummer]. </p>
 
-Bestelldatum: [bestelldatum]
-Neuer Termin der Reservierung: [ticketdatum]
-Veranstalter: [veranstalter] 
-Ort der Veranstaltung: [ort_veranstaltung]
-Ticketnummer: [ticketnummer] 
-
-Mit freundlichen Grüßen,
-Ihre Freunde im Ticketshop Solutions Demo Shop';
-
-    $email_body_download = 'Dies ist nur eine Downloadbestätigung,
-
-Bestelldatum: [bestelldatum]
-Termin der Reservierung: [ticketdatum]
-Veranstalter: [veranstalter]
-Ort der Veranstaltung: [ort_veranstaltung]
-Ticketnummer: [ticketnummer]
-Download Ticket: [url_download_ticket]
+<p> Bestelldatum: [bestelldatum] </p>
+<p>Neuer Termin der Reservierung: [ticketdatum]</p>
+<p>Veranstalter: [veranstalter] </p>
+<p>Ort der Veranstaltung: [ort_veranstaltung]</p>
+<p>Ticketnummer: [ticketnummer] </p>
 
 Mit freundlichen Grüßen,
 Ihre Freunde im Ticketshop Solutions Demo Shop';
+
+    $email_body_download = '<p> Dies ist nur eine Downloadbestätigung</p>,
+
+    <p> Bestelldatum: [bestelldatum] </p>
+    <p>Termin der Reservierung: [ticketdatum] </p>
+<p>Veranstalter: [veranstalter] </p>
+<p>Ort der Veranstaltung: [ort_veranstaltung]</p>
+<p>Ticketnummer: [ticketnummer]</p>
+<p>Download Ticket: [url_download_ticket]</p>
+
+<p>Mit freundlichen Grüßen,
+Ihre Freunde im Ticketshop Solutions Demo Shop</p>';
 
 
     // Check required fields
@@ -78,12 +78,14 @@ Ihre Freunde im Ticketshop Solutions Demo Shop';
 
     if (isset($_POST['save_email_settings'])) {
 
+        $allowed_html = array('br' => array(), 'p' => array(), 'strong' => array());
+
         $buy_tickets = array(
             'active' => isset($_POST['email_settings']['buy_ticket']['active']),
 
             'subject' => isset($_POST['email_settings']['buy_ticket']['subject']) ? sanitize_text_field($_POST['email_settings']['buy_ticket']['subject']) : 'Neues Ticket - [veranstalter]',
 
-            'body'  => isset($_POST['email_settings']['buy_ticket']['body']) ? sanitize_textarea_field($_POST['email_settings']['buy_ticket']['body']) : $email_body,
+            'body'  => isset($_POST['email_settings']['buy_ticket']['body']) ? wp_kses($_POST['email_settings']['buy_ticket']['body'], $allowed_html) : wp_kses($email_body, $allowed_html),
         );
 
         $rebook_tickets = array(
@@ -91,7 +93,7 @@ Ihre Freunde im Ticketshop Solutions Demo Shop';
 
             'subject' => isset($_POST['email_settings']['rebook_ticket']['subject']) ? sanitize_text_field($_POST['email_settings']['rebook_ticket']['subject']) : 'Ticket erfolgreich umgebucht',
 
-            'body'  => isset($_POST['email_settings']['rebook_ticket']['body']) ? sanitize_textarea_field($_POST['email_settings']['rebook_ticket']['body']) : $email_body_reebok,
+            'body'  => isset($_POST['email_settings']['rebook_ticket']['body']) ?  wp_kses($_POST['email_settings']['rebook_ticket']['body'], $allowed_html) : wp_kses($email_body_reebok, $allowed_html),
         );
 
         $download_tickets = array(
@@ -99,7 +101,7 @@ Ihre Freunde im Ticketshop Solutions Demo Shop';
 
             'subject' => isset($_POST['email_settings']['download_ticket']['subject']) ? sanitize_text_field($_POST['email_settings']['download_ticket']['subject']) : 'Downloadbestätigung',
 
-            'body'  => isset($_POST['email_settings']['download_ticket']['body']) ? sanitize_textarea_field($_POST['email_settings']['download_ticket']['body']) : $email_body_download,
+            'body'  => isset($_POST['email_settings']['download_ticket']['body']) ?  wp_kses($_POST['email_settings']['download_ticket']['body'], $allowed_html) : wp_kses($email_body_download, $allowed_html),
         );
 
         $mlx_email_options['buy_ticket'] = $buy_tickets;
