@@ -26,7 +26,7 @@ function bixxs_events_emailsettingsFunc()
 Ihre Freunde im Ticketshop Solutions Demo Shop</p>';
 
     $email_body_reebok =
-        'Hallo [name],
+        '<p>Hallo [name], </p>
 
 <p>Dies ist nur eine E-Mail, für Ihre Umbuchung des Tickets: [ticketnummer]. </p>
 
@@ -77,18 +77,6 @@ Ihre Freunde im Ticketshop Solutions Demo Shop</p>';
     }
 
     if (isset($_POST['save_email_settings'])) {
-        $allowed_html = array(
-            'a' => array(
-                'href' => array(),
-                'title' => array()
-            ),
-            'Title' => array(),
-            'p' => array(),
-            'br' => array(),
-            'em' => array(),
-            'strong' => array(),
-        );
-
         $buy_tickets = array(
             'active' => isset($_POST['email_settings']['buy_ticket']['active']),
 
@@ -195,12 +183,9 @@ function bixxs_events_send_email($type, WC_Order_Item $item, $guest_number = 1, 
     }
 
     $headers = array(
+        'Content-Type: text/html; charset=UTF-8',
         'From: ' . bloginfo('name') . ' <' . get_option('woocommerce_email_from_address') . '>'
     );
-
-    add_filter('wp_mail_content_type', function ($content_type) {
-        return 'text/html';
-    });
 
     wp_mail($order->get_billing_email(), $subject, $body, $headers);
 
@@ -221,6 +206,10 @@ function bixxs_events_send_initial_email($order_id)
     $items = $order->get_items();
 
     error_log(print_r($items, true));
+
+    // add_filter('wp_mail_content_type', function ($content_type) {
+    //     return 'text/html';
+    // });
 
     foreach ($items as $item) {
         $order_item = new WC_Order_Item_Product($item->get_id());
