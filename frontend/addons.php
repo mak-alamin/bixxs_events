@@ -104,8 +104,10 @@ function bixxs_events_show_addons_summary()
 ?>
     <div id="bixxs_events_addons">
         <h4>Zusammenfassung</h4>
-        <div id="bixxs_events_price_person" class="<?php echo $class_price_person; ?>" data-name-singular="<?php echo $name_singular; ?>" data-name-plural="<?php echo $name_plural; ?>" data-price-person="<?php echo $price_person; ?>">1 x <?php echo $name_singular . ' ' . number_format($price_person, 2, ",", "."), " €"; ?></div>
-        <div id="bixxs_events_price_event" class="<?php echo $class_price_event; ?>" data-price-event="<?php echo $price_event; ?>">Preis: <?php echo number_format($price_event, 2, ",", "."), " €"; ?></div>
+
+        <div id="bixxs_events_price_person" class="<?php echo $class_price_person; ?>" data-nameSingular="<?php echo $name_singular; ?>" data-namePlural="<?php echo $name_plural; ?>" data-pricePerson="<?php echo $price_person; ?>">1 x <?php echo $name_singular . ' ' . number_format($price_person, 2, ",", "."), " €"; ?></div>
+
+        <div id="bixxs_events_price_event" class="<?php echo $class_price_event; ?>" data-priceEvent="<?php echo $price_event; ?>">Preis: <?php echo number_format($price_event, 2, ",", "."), " €"; ?></div>
         <div id="bixxs_events_addons_summary">
 
         </div>
@@ -113,9 +115,7 @@ function bixxs_events_show_addons_summary()
     </div>
 
 <?php
-
 }
-
 
 add_filter('woocommerce_add_cart_item_data', 'bixxs_events_add_cart_item_data_addons', 15, 3);
 function bixxs_events_add_cart_item_data_addons($cart_item_data, $product_id, $variation_id)

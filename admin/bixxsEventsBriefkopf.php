@@ -180,8 +180,6 @@ class Bixxs_Events_Briefkopf
 
 			require_once 'views/briefkopf/demo_pdf_template_html.php';
 
-			ticketmaster_render_demo_template($this->ticketmaster_options['general_settings']);
-
 			$html = ob_get_clean();
 
 			$dompdf->loadHtml($html);

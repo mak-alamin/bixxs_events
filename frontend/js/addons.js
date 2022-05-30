@@ -5,10 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
 function bixxs_events_calculate_sumary() {
   let guest_count = bixxs_events_count_guests();
 
+  console.log(guest_count);
   let person_wrapper = document.getElementById("bixxs_events_price_person");
   let addon_wrapper = document.getElementById("bixxs_events_addons_summary");
 
-  let price_person = parseFloat(person_wrapper.dataset.pricePerson);
+  let price_person = parseFloat(person_wrapper.dataset.priceperson);
   let events_label = "";
 
   // empty addons
@@ -16,9 +17,9 @@ function bixxs_events_calculate_sumary() {
 
   // Set price person
   if (guest_count === 1) {
-    events_label = person_wrapper.dataset.nameSingular;
+    events_label = person_wrapper.dataset.namesingular;
   } else {
-    events_label = person_wrapper.dataset.namePlural;
+    events_label = person_wrapper.dataset.nameplural;
   }
 
   let price = guest_count * price_person;
@@ -36,7 +37,7 @@ function bixxs_events_calculate_sumary() {
 
   // get price event
   total += parseFloat(
-    document.getElementById("bixxs_events_price_event").dataset.priceEvent
+    document.getElementById("bixxs_events_price_event").dataset.priceevent
   );
 
   // addon fields

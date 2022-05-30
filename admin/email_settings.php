@@ -12,44 +12,44 @@ function bixxs_events_addingbixxs_events_emailsettingsFunc()
 function bixxs_events_emailsettingsFunc()
 {
     $email_body =
-        'Hallo [name],
+        '<p>Hallo [name],</p>
 
-Dies ist nur eine E-Mail, um Ihren Termin zu bestätigen.
+        <p>Dies ist nur eine E-Mail, um Ihren Termin zu bestätigen.
+</p>
+<p>Bestelldatum: [bestelldatum] </p>
+<p>Termin der Reservierung: [ticketdatum] </p>
+<p>Veranstalter: [veranstalter] </p>
+<p>Ort der Veranstaltung: [ort_veranstaltung] </p>
+<p>Ticketnummer: [ticketnummer]</p>
 
-Bestelldatum: [bestelldatum]
-Termin der Reservierung: [ticketdatum]
-Veranstalter: [veranstalter]
-Ort der Veranstaltung: [ort_veranstaltung]
-Ticketnummer: [ticketnummer]
-
-Mit freundlichen Grüßen,
-Ihre Freunde im Ticketshop Solutions Demo Shop';
+<p>Mit freundlichen Grüßen,
+Ihre Freunde im Ticketshop Solutions Demo Shop</p>';
 
     $email_body_reebok =
-        'Hallo [name],
+        '<p>Hallo [name], </p>
 
-Dies ist nur eine E-Mail, für Ihre Umbuchung des Tickets: [ticketnummer]. 
+<p>Dies ist nur eine E-Mail, für Ihre Umbuchung des Tickets: [ticketnummer]. </p>
 
-Bestelldatum: [bestelldatum]
-Neuer Termin der Reservierung: [ticketdatum]
-Veranstalter: [veranstalter] 
-Ort der Veranstaltung: [ort_veranstaltung]
-Ticketnummer: [ticketnummer] 
-
-Mit freundlichen Grüßen,
-Ihre Freunde im Ticketshop Solutions Demo Shop';
-
-    $email_body_download = 'Dies ist nur eine Downloadbestätigung,
-
-Bestelldatum: [bestelldatum]
-Termin der Reservierung: [ticketdatum]
-Veranstalter: [veranstalter]
-Ort der Veranstaltung: [ort_veranstaltung]
-Ticketnummer: [ticketnummer]
-Download Ticket: [url_download_ticket]
+<p> Bestelldatum: [bestelldatum] </p>
+<p>Neuer Termin der Reservierung: [ticketdatum]</p>
+<p>Veranstalter: [veranstalter] </p>
+<p>Ort der Veranstaltung: [ort_veranstaltung]</p>
+<p>Ticketnummer: [ticketnummer] </p>
 
 Mit freundlichen Grüßen,
 Ihre Freunde im Ticketshop Solutions Demo Shop';
+
+    $email_body_download = '<p> Dies ist nur eine Downloadbestätigung</p>,
+
+    <p> Bestelldatum: [bestelldatum] </p>
+    <p>Termin der Reservierung: [ticketdatum] </p>
+<p>Veranstalter: [veranstalter] </p>
+<p>Ort der Veranstaltung: [ort_veranstaltung]</p>
+<p>Ticketnummer: [ticketnummer]</p>
+<p>Download Ticket: [url_download_ticket]</p>
+
+<p>Mit freundlichen Grüßen,
+Ihre Freunde im Ticketshop Solutions Demo Shop</p>';
 
 
     // Check required fields
@@ -77,29 +77,28 @@ Ihre Freunde im Ticketshop Solutions Demo Shop';
     }
 
     if (isset($_POST['save_email_settings'])) {
-
         $buy_tickets = array(
-            'active' => isset($_POST['email_settings']['buy_ticket']['active']) ? $_POST['email_settings']['buy_ticket']['active'] : true,
+            'active' => isset($_POST['email_settings']['buy_ticket']['active']),
 
             'subject' => isset($_POST['email_settings']['buy_ticket']['subject']) ? sanitize_text_field($_POST['email_settings']['buy_ticket']['subject']) : 'Neues Ticket - [veranstalter]',
 
-            'body'  => isset($_POST['email_settings']['buy_ticket']['body']) ? sanitize_textarea_field($_POST['email_settings']['buy_ticket']['body']) : $email_body,
+            'body'  => isset($_POST["email_settings_buy_ticket_body"]) ?  $_POST["email_settings_buy_ticket_body"] : $email_body,
         );
 
         $rebook_tickets = array(
-            'active' => isset($_POST['email_settings']['rebook_ticket']['active']) ? $_POST['email_settings']['rebook_ticket']['active'] : true,
+            'active' => isset($_POST['email_settings']['rebook_ticket']['active']),
 
             'subject' => isset($_POST['email_settings']['rebook_ticket']['subject']) ? sanitize_text_field($_POST['email_settings']['rebook_ticket']['subject']) : 'Ticket erfolgreich umgebucht',
 
-            'body'  => isset($_POST['email_settings']['rebook_ticket']['body']) ? sanitize_textarea_field($_POST['email_settings']['rebook_ticket']['body']) : $email_body_reebok,
+            'body'  => isset($_POST["email_settings_rebook_ticket_body"]) ?  $_POST["email_settings_rebook_ticket_body"] : $email_body_reebok,
         );
 
         $download_tickets = array(
-            'active' => isset($_POST['email_settings']['download_ticket']['active']) ? $_POST['email_settings']['download_ticket']['active'] : true,
+            'active' => isset($_POST['email_settings']['download_ticket']['active']),
 
             'subject' => isset($_POST['email_settings']['download_ticket']['subject']) ? sanitize_text_field($_POST['email_settings']['download_ticket']['subject']) : 'Downloadbestätigung',
 
-            'body'  => isset($_POST['email_settings']['download_ticket']['body']) ? sanitize_textarea_field($_POST['email_settings']['download_ticket']['body']) : $email_body_download,
+            'body'  => isset($_POST["email_settings_download_ticket_body"]) ?  $_POST["email_settings_download_ticket_body"] : $email_body_download,
         );
 
         $mlx_email_options['buy_ticket'] = $buy_tickets;
@@ -175,7 +174,7 @@ function bixxs_events_send_email($type, WC_Order_Item $item, $guest_number = 1, 
     );
 
     $subject = $mlx_email_options[$type]['subject'];
-    $body = $mlx_email_options[$type]['body'];
+    $body = wpautop($mlx_email_options[$type]['body']);
 
     // Replace Parameters
     foreach ($replacements as $key => $value) {
@@ -183,18 +182,21 @@ function bixxs_events_send_email($type, WC_Order_Item $item, $guest_number = 1, 
         $body = str_replace($key, $value, $body);
     }
 
-    wp_mail($order->get_billing_email(), $subject, $body);
+    $headers = array(
+        'Content-Type: text/html; charset=UTF-8',
+        'From: ' . bloginfo('name') . ' <' . get_option('woocommerce_email_from_address') . '>'
+    );
+
+    wp_mail($order->get_billing_email(), $subject, $body, $headers);
 
     if ($send_to_admin) {
-        wp_mail(get_option('admin_email'), $subject, $body);
+        wp_mail(get_option('admin_email'), $subject, $body, $headers);
     }
 
     if (!empty($guest_email) && $guest_email != $order->get_billing_email()) {
-        wp_mail($guest_email, $subject, $body);
+        wp_mail($guest_email, $subject, $body, $headers);
     }
 }
-
-// add_action('init', 'bixxs_events_send_initial_email');
 
 add_action('woocommerce_payment_complete', 'bixxs_events_send_initial_email');
 add_action('woocommerce_order_status_completed', 'bixxs_events_send_initial_email');
@@ -204,6 +206,10 @@ function bixxs_events_send_initial_email($order_id)
     $items = $order->get_items();
 
     error_log(print_r($items, true));
+
+    // add_filter('wp_mail_content_type', function ($content_type) {
+    //     return 'text/html';
+    // });
 
     foreach ($items as $item) {
         $order_item = new WC_Order_Item_Product($item->get_id());

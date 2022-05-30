@@ -125,7 +125,7 @@ function bixxs_events_show_guest_selection()
                 <p>(* Pflichtangaben)</p>
             </div>
     </details>
-</div>';
+</div></div>';
 
     $guest_selection .= '
        <!-- </div><p><div>
