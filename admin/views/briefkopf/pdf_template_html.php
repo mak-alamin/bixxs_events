@@ -238,7 +238,6 @@ require_once __DIR__ . '/pdf_fields_options.php';
 
 
     <div class="footer">
-
         <div class="footer-box">
             <small><?php echo nl2br($this->ticketmaster_options['general_settings']['footer'][1]); ?></small>
         </div>
