@@ -13,6 +13,7 @@ function bixxs_events_extraticketsFunc()
 {
     // Get options
     $mlx_options = get_option('bixxs_events_options');
+    
     if (isset($mlx_options['guest_settings'])) {
         $mlx_guest_options = $mlx_options['guest_settings'];
     } else {
