@@ -2,6 +2,7 @@
     <div class='options_group'>
         <?php
         $bixxs_events_options = get_option('bixxs_events_options');
+        
         $guest_settings = isset($bixxs_events_options['guest_settings']) ?  $bixxs_events_options['guest_settings']  : [];
 
         woocommerce_wp_text_input(

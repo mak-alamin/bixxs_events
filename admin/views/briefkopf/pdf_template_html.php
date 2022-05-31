@@ -3,7 +3,6 @@ require_once __DIR__ . '/pdf_fields_options.php';
 ?>
 
 <style>
-    /* PDF Template Style */
     body,
     div.pdf-template {
         box-sizing: border-box;
