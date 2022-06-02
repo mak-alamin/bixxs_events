@@ -214,7 +214,7 @@ function bixxs_events_send_initial_email($order_id)
     foreach ($items as $item) {
         $order_item = new WC_Order_Item_Product($item->get_id());
 
-        error_log(print_r($order_item->get_product()->get_type(), true));
+        // error_log(print_r($order_item->get_product()->get_type(), true));
 
         if ($order_item->get_product()->get_type() == 'bixxs_events_product') {
             $guests = json_decode($item->get_meta('_mlx_guests'), true);

@@ -3,8 +3,8 @@
     <h1>Email Einstellung</h1>
     <hr>
 
-    <h2>Downloadbestätigung , die E.Mail geht an den Kunden</h2>
     <form action="" method="post">
+        <h2>Downloadbestätigung , die E.Mail geht an den Kunden</h2>
         <input type="checkbox" name="email_settings[download_ticket][active]" <?php echo isset($mlx_email_options['download_ticket']['active']) && $mlx_email_options['download_ticket']['active'] ? 'checked' : ''; ?>>
         <label for="email_settings[download_ticket][active]">E-Mail senden</label>
 

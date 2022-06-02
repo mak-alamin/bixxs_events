@@ -1,19 +1,19 @@
-function ticket_master_delete_guest(guest) {
+function bixxs_events_delete_guest(guest) {
   if (bixxs_events_count_guests() < 2) {
     alert("Es muss mindestens ein Gast erfasst werden.");
     return;
   }
   document.getElementById(guest).remove();
-  ticket_master_rename_guests();
+  bixxs_events_rename_guests();
 }
 
-function ticket_master_add_guest() {
+function bixxs_events_add_guest() {
   let guest_selection = document.getElementById("mlx_guest_selection");
 
   let max_guests = parseInt(guest_selection.dataset.maxGuests);
 
   let available_tickets = 0;
-  let timepickerInput = document.getElementById("ticket_master_timepicker");
+  let timepickerInput = document.getElementById("bixxs_events_timepicker");
 
   console.log("Available TICKETS:!!");
   console.log(window.available_tickets_arr);
@@ -47,17 +47,17 @@ function ticket_master_add_guest() {
     return;
   }
 
-  let next_guest_number = ticket_master_get_next_guest_number();
+  let next_guest_number = bixxs_events_get_next_guest_number();
   let guests = document.querySelectorAll("#mlx_guest_selection > div");
   let last_guest = guests[guests.length - 1];
   let new_guest = last_guest.cloneNode(true);
   new_guest.id = "mlx_guest_" + next_guest_number;
   let value = new_guest.innerHTML;
-  let old_number = ticket_master_get_next_guest_number() - 1;
+  let old_number = bixxs_events_get_next_guest_number() - 1;
   let re = new RegExp("([\\[,_])(" + old_number + ")", "g");
   new_guest.innerHTML = new_guest.innerHTML.replace(
     re,
-    "$1" + ticket_master_get_next_guest_number()
+    "$1" + bixxs_events_get_next_guest_number()
   );
 
   // Open details
@@ -74,7 +74,7 @@ function ticket_master_add_guest() {
 
   guest_selection.appendChild(new_guest);
 
-  ticket_master_rename_guests();
+  bixxs_events_rename_guests();
 }
 
 function bixxs_events_count_guests() {
@@ -85,7 +85,7 @@ function bixxs_events_count_guests() {
   return parseInt(guest_count);
 }
 
-function ticket_master_rename_guests() {
+function bixxs_events_rename_guests() {
   let guests = document.querySelectorAll("#mlx_guest_selection > div h2");
 
   let i = 1;
@@ -98,7 +98,7 @@ function ticket_master_rename_guests() {
   document.getElementById("mlx_guest_selection").dataset.guests = i - 1;
 }
 
-function ticket_master_get_next_guest_number() {
+function bixxs_events_get_next_guest_number() {
   let guests = document.querySelectorAll("#mlx_guest_selection > div");
 
   let last_guest = guests[guests.length - 1];
