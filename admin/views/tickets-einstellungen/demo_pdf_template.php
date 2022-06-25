@@ -1,7 +1,3 @@
-<?php
-require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_options.php';
-?>
-
 <style>
     /* PDF Template Style */
     body,
@@ -133,7 +129,15 @@ require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_option
             <span style="position:absolute;top: <?php echo $ticket_number_top; ?>px;left:<?php echo $ticket_number_left; ?>px;color:<?php echo $ticket_number_color; ?>" class="ticket-number">Ticketnummer: ist gleiche wie Bestellnummer</span>
         <?php } ?>
 
-        <img src="<?php echo BIXXS_EVENTS_PLUGIN_URL .  '/img/demo_qrcode.png' ?>" alt="" class="qr-code" style="display:inline-block;position:absolute; top: <?php echo $qrcode_top; ?>px;left:<?php echo $qrcode_left; ?>px" width="100" height="100">
+        <?php if ($show_pdf_qrcode) { ?>
+            <img src="<?php echo BIXXS_EVENTS_PLUGIN_URL .  '/img/demo_qrcode.png' ?>" alt="" class="qr-code" style="display:inline-block;position:absolute; top: <?php echo $qrcode_top; ?>px;left:<?php echo $qrcode_left; ?>px" width="100" height="100">
+        <?php } else {
+            $ean_data = '10';
+
+            $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+
+            echo '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($ean_data, $generator::TYPE_CODE_128)) . '" style="background:#fff;padding:5px;display:inline-block; position: absolute;top:'.$qrcode_top.'px;left:'.$qrcode_left.'px;max-width:100%" >';
+        } ?>
 
         <img src="<?php echo $ticketimage ?>" alt="" class="ticket_bg" width="700" height="352">
     </div>

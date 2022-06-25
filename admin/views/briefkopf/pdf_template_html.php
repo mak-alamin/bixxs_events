@@ -177,7 +177,7 @@ require_once __DIR__ . '/pdf_fields_options.php';
 
             <?php if ($show_pdf_reserve_time) { ?>
                 <span style="position: absolute; top:<?php echo $termien_top; ?>px; left:<?php echo $termien_left; ?>px; color:<?php echo $termien_color; ?>">Termin der Reservierung: <?php echo $bixxs_events_reserve_time; ?> </span>
-        <?php }
+            <?php }
 
             if ($show_pdf_ticketnumber) {
                 echo "<span style='position: absolute;top:" . $ticket_number_top . "px;left:" .  $ticket_number_left . "px;color:" . $ticket_number_color . "' >Ticketnummer:";
@@ -201,13 +201,16 @@ require_once __DIR__ . '/pdf_fields_options.php';
             }
         }
 
-        ?>
-        <img src='<?php echo $qr_code_url;
-                    ?>' alt='' style='display:inline-block;position:absolute; top:<?php echo $qrcode_top;
-                                                                                    ?>px;left:<?php echo $qrcode_left;
-                                                                                                ?>px;' width="100" height="100">
+        // QR Code
+        if ($show_pdf_qrcode) { ?>
+            <img src='<?php echo $qr_code_url; ?>' alt='' style='display:inline-block;position:absolute; top:<?php echo $qrcode_top; ?>px;left:<?php echo $qrcode_left; ?>px;' width="100" height="100">
 
-        <?php
+        <?php } else {
+
+            $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+
+            echo '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($ticket_id, $generator::TYPE_CODE_128)) . '" style="background:#fff;padding:5px;display:inline-block; position: absolute;top:' . $qrcode_top . 'px; left: ' . $qrcode_left . 'px;max-width:100%" >';
+        }
 
         // Get the image and convert into string
         $img = file_get_contents($ticket_img);

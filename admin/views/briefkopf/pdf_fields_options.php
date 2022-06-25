@@ -14,6 +14,7 @@ if (isset($bixxs_events_options['guest_settings'])) {
         'show_pdf_ort_veranstalter' => true,
         'show_pdf_menge' => true,
         'show_pdf_ticketnumber' => true,
+        'show_pdf_qrcode' => true,
     );
 }
 
@@ -32,3 +33,5 @@ $show_pdf_ort_veranstalter = isset($bixxs_pdf_options['show_pdf_ort_veranstalter
 $show_pdf_menge = isset($bixxs_pdf_options['show_pdf_menge']) ? $bixxs_pdf_options['show_pdf_menge'] : true;
 
 $show_pdf_ticketnumber = isset($bixxs_pdf_options['show_pdf_ticketnumber']) ? $bixxs_pdf_options['show_pdf_ticketnumber'] : true;
+
+$show_pdf_qrcode = isset($bixxs_pdf_options['show_pdf_qrcode']) ? $bixxs_pdf_options['show_pdf_qrcode'] : true;

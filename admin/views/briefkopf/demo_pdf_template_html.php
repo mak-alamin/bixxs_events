@@ -1,7 +1,3 @@
-<?php
-require_once __DIR__ . '/pdf_fields_options.php';
-?>
-
 <style>
     /* PDF Template Style */
     body,
@@ -138,7 +134,16 @@ require_once __DIR__ . '/pdf_fields_options.php';
             <span style="position:absolute;top: 2600px;left: 50px;" class="ticket-number">Ticketnummer: ist gleiche wie Bestellnummer</span>
         <?php } ?>
 
-        <img src="<?php echo BIXXS_EVENTS_PLUGIN_URL .  '/img/demo_qrcode.png' ?>" alt="" class="qr-code" style="display:inline-block;position:absolute; top:240px;left:580px;" width="100" height="100">
+        <?php if ($show_pdf_qrcode) { ?>
+            <img src="<?php echo BIXXS_EVENTS_PLUGIN_URL . '/img/demo_qrcode.png'; ?>" alt="" class="qr-code" style="display:inline-block;position:absolute; top:240px;left:580px;" width="100" height="100">
+
+        <?php } else {
+            $ean_data = '10';
+
+            $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+
+            echo '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($ean_data, $generator::TYPE_CODE_128)) . '" style="background:#fff;padding:5px;display:inline-block; position: absolute;top:280px;left:50px;max-width:100%" >';
+        } ?>
 
         <img src="https://dev2.bixxs.de/wp-content/uploads/2022/05/tp-tickets.png" alt="" class="ticket_bg" width="700" height="352">
     </div>

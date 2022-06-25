@@ -13,7 +13,7 @@ function bixxs_events_extraticketsFunc()
 {
     // Get options
     $mlx_options = get_option('bixxs_events_options');
-    
+
     if (isset($mlx_options['guest_settings'])) {
         $mlx_guest_options = $mlx_options['guest_settings'];
     } else {
@@ -37,6 +37,7 @@ function bixxs_events_extraticketsFunc()
             'show_pdf_ort_veranstalter' => true,
             'show_pdf_menge' => true,
             'show_pdf_ticketnumber' => true,
+            'show_pdf_qrcode' => true,
         );
     }
 
@@ -64,6 +65,8 @@ function bixxs_events_extraticketsFunc()
             'show_pdf_ort_veranstalter' => isset($_POST['show_pdf_ort_veranstalter']) ? $_POST['show_pdf_ort_veranstalter'] : true,
             'show_pdf_menge' => isset($_POST['show_pdf_menge']) ? $_POST['show_pdf_menge'] : true,
             'show_pdf_ticketnumber' => isset($_POST['show_pdf_ticketnumber']) ? $_POST['show_pdf_ticketnumber'] : true,
+
+            'show_pdf_qrcode' => isset($_POST['show_pdf_qrcode']) ? $_POST['show_pdf_qrcode'] : true,
         );
 
         // save updated options
@@ -98,6 +101,8 @@ function bixxs_events_extraticketsFunc()
     $show_pdf_ort_veranstalter = isset($mlx_guest_options['show_pdf_ort_veranstalter']) ? $mlx_guest_options['show_pdf_ort_veranstalter'] : true;
     $show_pdf_menge = isset($mlx_guest_options['show_pdf_menge']) ? $mlx_guest_options['show_pdf_menge'] : true;
     $show_pdf_ticketnumber = isset($mlx_guest_options['show_pdf_ticketnumber']) ? $mlx_guest_options['show_pdf_ticketnumber'] : true;
+
+    $show_pdf_qrcode = isset($mlx_guest_options['show_pdf_qrcode']) ? $mlx_guest_options['show_pdf_qrcode'] : true;
 ?>
     <div class="wrap">
         <h1>Extra Gast Einstellungen | Kalender</h1>
@@ -209,6 +214,19 @@ function bixxs_events_extraticketsFunc()
                     <td><input type="radio" name="show_pdf_ticketnumber" value="1" <?php echo $show_pdf_ticketnumber ? ' checked' : ''; ?>></td>
 
                     <td><input type="radio" name="show_pdf_ticketnumber" value="0" <?php echo $show_pdf_ticketnumber ? '' : ' checked'; ?>></td>
+                </tr>
+
+                <tr>
+                    <td><label for="show_pdf_qrcode"><b>QR Code / EAN Code:</b></label></td>
+                    <td>
+                        <img src="<?php echo BIXXS_EVENTS_PLUGIN_URL . '/img/demo_qrcode.png'; ?>" alt="" width="50"> <br>
+                        <input type="radio" name="show_pdf_qrcode" value="1" <?php echo $show_pdf_qrcode ? ' checked' : ''; ?>>
+                    </td>
+
+                    <td>
+                        <img src="<?php echo BIXXS_EVENTS_PLUGIN_URL . '/img/barcode.gif'; ?>" alt="" width="50"> <br>
+                        <input type="radio" name="show_pdf_qrcode" value="0" <?php echo $show_pdf_qrcode ? '' : ' checked'; ?>>
+                    </td>
                 </tr>
 
                 <tr>

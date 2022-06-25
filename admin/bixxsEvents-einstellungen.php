@@ -405,9 +405,11 @@ class BixxsEventsEinstellungen
 
 			$ticketimage = (!empty($_POST['ticketimage'])) ? $_POST['ticketimage'] : '';
 
+			require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_options.php';
+
 			ob_start();
 			$html = "";
-			require_once __DIR__ .  '/views/tickets-einstellungen/demo_pdf_template.php';
+			require_once BIXXS_EVENTS_PLUGIN_DIR .  '/admin/views/tickets-einstellungen/demo_pdf_template.php';
 
 			$html = ob_get_clean();
 

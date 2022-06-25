@@ -171,6 +171,8 @@ class Bixxs_Events_Briefkopf
 
 			$dompdf->setPaper('A4');
 
+			require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_options.php';
+
 			$html = '';
 			ob_start();
 			header('Content-type: application/pdf');

@@ -173,11 +173,16 @@ require_once BIXXS_EVENTS_PLUGIN_DIR . '/admin/views/briefkopf/pdf_fields_option
                 echo '</span>';
             }
         }
-        ?>
 
-        <img src='<?php echo $qr_code_img; ?>' alt='' style='display:inline-block;position:absolute; top:<?php echo $qrcode_top; ?>px;left:<?php echo $qrcode_left; ?>px;' width="100" height="100">
+        if ($show_pdf_qrcode) {
+            echo "<img src='$qr_code_img' alt='Ticket PDF' style='display:inline-block;position:absolute; top:$qrcode_top" . "px;left:" . $qrcode_left . "px;' width='100' height='100'>";
+        } else {
 
-        <?php
+            $ean_generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+
+            echo '<img src="data:image/png;base64,' . base64_encode($ean_generator->getBarcode($ticket_id, $ean_generator::TYPE_CODE_128)) . '" style="background:#fff;padding:5px;display:inline-block; position: absolute;top:' . $qrcode_top . 'px; left: ' . $qrcode_left . 'px;max-width:100%" >';
+        }
+
         // Get the image and convert into string
         $img = file_get_contents($ticket_img);
 
