@@ -33,7 +33,7 @@ require_once(plugin_dir_path(__FILE__) . '/vendor/autoload.php');
 if (!defined("BIXXS_EVENTS_PLUGIN_URL")) {
 	define("BIXXS_EVENTS_PLUGIN_URL", plugins_url('/', __FILE__));
 }
-if (!defined("BIXXS_EVENTS_PLUGIN_DIR")){
+if (!defined("BIXXS_EVENTS_PLUGIN_DIR")) {
 	define('BIXXS_EVENTS_PLUGIN_DIR', rtrim(plugin_dir_path(__FILE__), "/"));
 }
 
@@ -78,28 +78,15 @@ function bixxs_events_add_action_links($actions)
 	return $actions;
 }
 
-//Check if WooCommerce is activated
-$active_plugins = get_option('active_plugins');
-
-// print_r($active_plugins);
-if (in_array('woocommerce/woocommerce.php', $active_plugins)) {
-	add_action('init', 'register_bixxs_event_product_type');
-} else {
-	function mlx_bixxs_events_admin_notice()
-	{
-
-		echo '<div class="notice notice-info is-dismissible">
-			              <p>Bixxs Events requires to activate the WooCommerce Plugin.</p>
-			             </div>';
-	}
-	add_action('admin_notices', 'mlx_bixxs_events_admin_notice');
-}
-
-// New Product Type Code
-//Registering New Product Type
+/**
+ * ==============================
+ * Add Bixxs Event Product Type 
+ * in (6 Steps)
+ * ==============================
+ */
+// 1. Bixxs Event Product Type Class
 function register_bixxs_event_product_type()
 {
-
 	class WC_Product_bixxs_events_product extends WC_Product
 	{
 		protected $product_type = 'bixxs_events_product';
@@ -117,30 +104,52 @@ function register_bixxs_event_product_type()
 	}
 }
 
+// 2. Check if WooCommerce is activated and register Custom Product Type
+$active_plugins = get_option('active_plugins');
+
+if (in_array('woocommerce/woocommerce.php', $active_plugins)) {
+	add_action('init', 'register_bixxs_event_product_type');
+} else {
+	function mlx_bixxs_events_admin_notice()
+	{
+		echo '<div class="notice notice-info is-dismissible">
+			              <p>Bixxs Events requires to activate the WooCommerce Plugin.</p>
+			             </div>';
+	}
+	add_action('admin_notices', 'mlx_bixxs_events_admin_notice');
+}
+
+// 3. Show add to cart process for custom product type
 add_action("woocommerce_bixxs_events_product_add_to_cart", function () {
 	do_action('woocommerce_simple_add_to_cart');
 });
 
+// 4. Return Custom product type class
 add_filter('woocommerce_product_class', 'ig_woocommerce_bixxs_events_product_product_class', 10, 2);
 function ig_woocommerce_bixxs_events_product_product_class($classname, $product_type)
 {
+	$product_type = isset($_POST['product-type']) ? $_POST['product-type'] : $product_type;
+
 	if ($product_type == 'bixxs_events_product') {
 		$classname = 'WC_Product_bixxs_events_product';
+	} elseif ($product_type == 'bixss_seat') {
+		$classname = 'WC_Product_Bixss_Seat';
+	} elseif ($product_type == 'recipebundle') {
+		$classname = 'WC_Product_Recipe_Bundle';
 	}
 	return $classname;
 }
 
-
-function bixxs_events_save_custom_product_type_terms()
+// 5. Save custom product type terms
+function save_bixxs_events_product_type_terms()
 {
 	if (!term_exists('bixxs_events_product', 'product_type')) {
 		wp_insert_term('bixxs_events_product', 'product_type');
 	}
 }
+add_action('admin_init', 'save_bixxs_events_product_type_terms');
 
-add_action('admin_init', 'bixxs_events_save_custom_product_type_terms');
-
-
+// 6. add custom product type dropdown selector
 function add_bixxs_events_product_product($types)
 {
 	// Key should be exactly the same as in the class
@@ -148,11 +157,14 @@ function add_bixxs_events_product_product($types)
 
 	return $types;
 }
-
 add_filter('product_type_selector', 'add_bixxs_events_product_product');
 
 
-
+/**
+ * ====================================
+ *	Bixxs Events Product data tabs
+ * ====================================
+ */
 function bixxs_events_custom_product_tabs($tabs)
 {
 	$new_tabs['bixxs_events_product'] = array(
@@ -171,8 +183,6 @@ function bixxs_events_custom_product_tabs($tabs)
 }
 
 add_filter('woocommerce_product_data_tabs', 'bixxs_events_custom_product_tabs');
-
-
 
 
 function bixxs_events_product_tabs()
@@ -512,8 +522,9 @@ function bixxs_events_update_price($post_id, $post, $update)
 	$product = wc_get_product($post_id);
 
 	// Check Product Type
-	if ($product->get_type() != 'bixxs_events_product')
+	if ($product->get_type() != 'bixxs_events_product') {
 		return $post_id;
+	}
 
 	$price = 0;
 	$price += (int) get_post_meta($post_id, 'bixxs_events_price_per_person', true);
