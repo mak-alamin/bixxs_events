@@ -1,3 +1,3 @@
 # Bixxs Veranstaltungs System
 
-A WordPress Plugin to sell Tickets and Vouchers with WooCommerce
+A WordPress Plugin to sell Event Tickets with WooCommerce
